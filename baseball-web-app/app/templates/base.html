@@ -1,0 +1,16 @@
+<!doctype html>
+<!--TODO: correct microblog wording-->
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Microblog</title>
+      {% else %}
+      <title>Welcome to Microblog</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>Microblog: <a href="/index">Home</a></div> <!-- TODO: Turn into list navigation-->
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
