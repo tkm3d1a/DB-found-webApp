@@ -1,4 +1,6 @@
 # DB-found-webApp
+TODO: Add TOC here for readme
+TODO: Make sure to update [Worklog](#worklog) with each PR or commit
 
 # Installation information
 
@@ -37,7 +39,8 @@ _.vscode/settings.json_
 ```json
 {
   "python.analysis.extraPaths": [
-    "./baseball-web-app"
+    "./baseball-web-app",
+    "./venv/lib/python3.8/site-packages"
   ]
 }
 ```
@@ -49,7 +52,13 @@ _11-2-22_
 - began basic instructions
 - setup flask mvp
 - stopped before working on webforms
+  + added webforms before final sign off
+  + based off template in reference tutorial
 - next steps
   - complete webforms
   - work on building orm's
   - try simple web app mvp with actual db information
+
+  # References
+
+  - [Flask Mega Tutorial post 3](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)

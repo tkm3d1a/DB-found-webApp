@@ -1,5 +1,6 @@
 {
   "python.analysis.extraPaths": [
-    "./baseball-web-app"
+    "./baseball-web-app",
+    "./venv/lib/python3.8/site-packages"
   ]
 }
