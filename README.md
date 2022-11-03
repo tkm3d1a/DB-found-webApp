@@ -1,8 +1,14 @@
 # DB-found-webApp
 TODO: Add TOC here for readme
 TODO: Make sure to update [Worklog](#worklog) with each PR or commit
+TODO: Add link for MariaDB install
+TODO: Add instructions for setting up base DB instance
+TODO: User info setup required as well
+TODO: ORM for neede info to be dev
 
 # Installation information
+
+TODO: Any dep installs needed to be detailed here
 
 # Environment information
 
@@ -54,11 +60,13 @@ _11-2-22_
 - stopped before working on webforms
   + added webforms before final sign off
   + based off template in reference tutorial
++ Added DB link direct
 - next steps
   - complete webforms
   - work on building orm's
   - try simple web app mvp with actual db information
 
-  # References
+# References
 
-  - [Flask Mega Tutorial post 3](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)
+- [Flask Mega Tutorial post 3](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)
+- [DB Link](https://www.seanlahman.com/baseball-archive/statistics/)
