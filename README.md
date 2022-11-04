@@ -11,6 +11,14 @@ TODO: User info setup required as well
 
 TODO: ORM for neede info to be dev
 
+TODO: Setup user auth as module for flask env (Pawan)
+
+TODO: decomp requirements for assigning tasks (complete by 11-5-22) (Tim) (Kevin)
+
+TODO: gather reference material and images
+
+TODO: Mark todo lines with assignee names if possible to avoid double work
+
 
 # Installation information
 
@@ -59,14 +67,21 @@ _.vscode/settings.json_
 
 # Worklog
 
+_11-3-22_
+- Added reference folder to hold any reference material needed
+  - included image from baseballreference.com
+  - also included marked up image with first thoughts on page needs
+- added todo items to top tracking
+  - This should be broken out a little bit better?
+
 _11-2-22_
 - Set up repo
 - began basic instructions
 - setup flask mvp
 - stopped before working on webforms
-  + added webforms before final sign off
-  + based off template in reference tutorial
-+ Added DB link direct
+  - added webforms before final sign off
+  - based off template in reference tutorial
+- Added DB link direct
 - next steps
   - complete webforms
   - work on building orm's
