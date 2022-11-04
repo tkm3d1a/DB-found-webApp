@@ -1,10 +1,16 @@
 # DB-found-webApp
 TODO: Add TOC here for readme
+
 TODO: Make sure to update [Worklog](#worklog) with each PR or commit
+
 TODO: Add link for MariaDB install
+
 TODO: Add instructions for setting up base DB instance
+
 TODO: User info setup required as well
+
 TODO: ORM for neede info to be dev
+
 
 # Installation information
 
