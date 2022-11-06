@@ -3,7 +3,7 @@
 ## SQL Tasks
 
 - [ ] TODO: Create analysis table
-  - [ x ] Main Table creation
+  - [x] Main Table creation
     - does not includie updating all custom calculations yet
   - [ ] Park-adjusted runs created
     - Calculation is done by pulling info from the Teams Table, BPF
