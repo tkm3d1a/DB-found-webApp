@@ -3,6 +3,8 @@
 ## SQL Tasks
 
 - [ ] TODO: Create analysis table
+  - [ x ] Main Table creation
+    - does not includie updating all custom calculations yet
   - [ ] Park-adjusted runs created
     - Calculation is done by pulling info from the Teams Table, BPF
       1. Create RC table
@@ -104,6 +106,10 @@ _11-5-22 [TK]_
   - Route added, can do post and get methods
   - Not confirmed on displaying correctly
   - Screen does not refresh when trying to hardcode a results test
+- Added script for creating and inserting base values into analysis table
+  - Verified correct, essentially just copies batting so we cna utilize a single ORM
+  - May need to create a secondary people table later still to concat the player name
+  - Or may just update the table creation for this one
 
 _11-3-22 [TK]_
 - Added reference folder to hold any reference material needed
