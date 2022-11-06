@@ -24,6 +24,7 @@
 - [ ] TODO: Setup user auth as module for flask env
   - Pawan todo week of 11/7
 - [ ] TODO: ORM for neede info to be dev
+  - [x] ORM for Analysis created
 - [ ] TODO: Search field for searching by first and last name
   - Can use wildcards to convert to search fields
 - [ ] TODO: Way to save a users preferences/favorite players
@@ -111,6 +112,10 @@ _11-5-22 [TK]_
   - Verified correct, essentially just copies batting so we cna utilize a single ORM
   - May need to create a secondary people table later still to concat the player name
   - Or may just update the table creation for this one
+- Added ORM for Analysis table
+- Added SQLAlchemy
+- Updated init.py for db connection setup
+  - Have not set up and/or tested connection yet
 
 _11-3-22 [TK]_
 - Added reference folder to hold any reference material needed
