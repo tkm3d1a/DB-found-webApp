@@ -2,6 +2,7 @@
 
 --
 -- Table structure for table `analysis`
+-- If this is updated, must ensure ORM class is also updated
 --
 
 DROP TABLE IF EXISTS `analysis`;

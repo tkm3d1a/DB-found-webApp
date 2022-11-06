@@ -62,7 +62,7 @@ LahmanBaseballDB
 - 2019, MySQL
 
 Python 
-- 3.8.10 (Running on WSL Ubuntu)
+- 3.8.10 (Running on WSL2 - Ubuntu)
 
 Flask
 - 2.2.2
@@ -80,6 +80,7 @@ pip install flask==2.2.2
 pip install pymysql==1.0.2
 pip install python-dotenv==0.21.0
 pip install flask-wtf==1.0.1
+pip install sqlalchemy==1.4.43
 ```
 
 If running vscode as editor, add the following environment settings...
