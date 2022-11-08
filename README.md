@@ -98,6 +98,14 @@ _.vscode/settings.json_
 
 # Worklog
 
+_11-8-22[TK]_
+- Updated createAnalysisTable script to update some items
+  - Issue with setting OBP
+  - Getting "ERROR 1242 (21000): Subquery returns more than 1 row"
+  - Need to debugg
+  - All other portions of Scripts work
+  - Still missing PARC and PARC27 updates
+
 _11-5-22 [TK]_
 - Adding base sql file to base folder
 - Adding structure for holding all sql scripts/database dumps

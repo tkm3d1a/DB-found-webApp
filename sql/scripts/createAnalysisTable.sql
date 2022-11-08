@@ -1,9 +1,9 @@
 -- Use this to create and modify the Analysis table that is needed
 
---
+------------------------------------------------------------
 -- Table structure for table `analysis`
 -- If this is updated, must ensure ORM class is also updated
---
+------------------------------------------------------------
 
 DROP TABLE IF EXISTS `analysis`;
 SET character_set_client = utf8mb4;
@@ -45,15 +45,37 @@ CREATE TABLE `analysis` (
 
 -- Inserting base values into analysis set
 -- These are just the values to use for starting, further calcs needed to populate all values in table
+-- Does not set the following:
+-- OBP,
+-- SLG,
+-- TB,
+-- RC,
+-- RC27,
+-- PARC,
+-- PARC27
 INSERT INTO analysis(
-  playerid,yearid,stint,
-  team,lgid,
-  g,ab,r,
-  h,b2,b3,
-  hr,rbi,sb,
-  cs,bb,so,
-  ibb,hbp,sh,
-  sf,gidp) 
+  playerid,
+  yearid,
+  stint,
+  team,
+  lgid,
+  g,
+  ab,
+  r,
+  h,
+  b2,
+  b3,
+  hr,
+  rbi,
+  sb,
+  cs,
+  bb,
+  so,
+  ibb,
+  hbp,
+  sh,
+  sf,
+  gidp) 
 SELECT 
   playerid,
   yearid,
@@ -80,7 +102,8 @@ SELECT
 FROM batting GROUP BY playerid,yearid,stint;
 
 ----------------------------------------------------------------
--- Commands to run to verify analysis table has been initialized correctly
+-- Commands to run to verify analysis table has been initialized 
+-- correctly
 ----------------------------------------------------------------
 -- SELECT
 --   playerid, yearid, stint,team,
@@ -105,5 +128,51 @@ FROM batting GROUP BY playerid,yearid,stint;
 ----------------------------------------------------------------
 ----------------------------------------------------------------
 
--- TODO: Need to add update items
+------------------
+-- Update TB field
+------------------
+UPDATE analysis a SET TB = h + b2 + 2*b3 + 3*hr;
+
+-------------------
+-- Update OBP Field
+-- FIXME:returning multiple results, need to investigate
+-------------------
+UPDATE analysis a SET OBP = 
+        CASE 
+          WHEN ab+bb+COALESCE(hbp,0)+COALESCE(sf,0) = 0 THEN 0 
+          ELSE (
+            SELECT ((h+bb+COALESCE(hbp,0)) / (ab+bb+COALESCE(hbp,0)+COALESCE(sf,0)))
+            FROM analysis b 
+            WHERE a.playerid = b.playerid AND a.yearid = b.yearid) 
+        END;
+
+------------------
+-- Update RC Field
+------------------
+UPDATE analysis a SET RC = OBP * TB;
+
+-------------------
+-- Update SLG field
+-- the formula for slugging percentage is: (1B + 2Bx2 + 3Bx3 + HRx4)/AB.
+-- ref: https://www.mlb.com/glossary/standard-stats/slugging-percentage
+-------------------
+UPDATE analysis a SET SLG = (h + b2*2 + b3*3 + hr*4) / AB;
+
+--------------------
+-- Update RC27 Field
+-- no concensus on formula past RC / 27
+--------------------
+UPDATE analysis a SET RC27 = RC / 27;
+
+--------------------
+-- Update PARC Field
+--------------------
+--TODO:
+
+----------------------
+-- Update PARC27 Field
+----------------------
+--TODO:
+
+
 -- TODO: Decide if a trigger is needed to keep the table up to date?
