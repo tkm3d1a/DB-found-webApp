@@ -135,7 +135,6 @@ UPDATE analysis a SET TB = h + b2 + 2*b3 + 3*hr;
 
 -------------------
 -- Update OBP Field
--- FIXME:returning multiple results, need to investigate
 -------------------
 UPDATE analysis a SET OBP = 
         CASE 
@@ -143,7 +142,7 @@ UPDATE analysis a SET OBP =
           ELSE (
             SELECT ((h+bb+COALESCE(hbp,0)) / (ab+bb+COALESCE(hbp,0)+COALESCE(sf,0)))
             FROM analysis b 
-            WHERE a.playerid = b.playerid AND a.yearid = b.yearid) 
+            WHERE a.playerid = b.playerid AND a.yearid = b.yearid AND a.stint = b.stint) 
         END;
 
 ------------------
