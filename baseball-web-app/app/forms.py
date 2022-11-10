@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, InputRequired
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class SearchForm(FlaskForm):
-    first_name = StringField('firstName', validators=[DataRequired()])
-    last_name = StringField('lastName', validators=[DataRequired()])
+    first_name = StringField('firstName', validators=[InputRequired()])
+    last_name = StringField('lastName', validators=[InputRequired()])
     save_search = BooleanField('Save Search')
     submit = SubmitField('Search')

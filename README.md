@@ -82,6 +82,7 @@ pip install pymysql==1.0.2
 pip install python-dotenv==0.21.0
 pip install flask-wtf==1.0.1
 pip install sqlalchemy==1.4.43
+pip install flask-sqlalchemy==3.0.2
 ```
 
 If running vscode as editor, add the following environment settings...
@@ -98,7 +99,19 @@ _.vscode/settings.json_
 
 # Worklog
 
-_11-8-22[TK]_
+_11-9-22 [TK]_
+- Had issue with ```flask run``` command
+  - error on loading flask_sqlalchemy module
+  - added pip install command to correct
+  - working after adding flask-sqlalchemy v3.0.2
+- Fixed search route bug
+  - Typo in search.html
+  - corrected if formatting in routes.py
+  - Adjusted validation rules in forms.py
+- Commented out DB connections to continue test runs
+- Added wtforms docs link to references
+
+_11-8-22 [TK]_
 - Updated createAnalysisTable script to update some items
   - Issue with setting OBP
   - Getting "ERROR 1242 (21000): Subquery returns more than 1 row"
@@ -149,3 +162,4 @@ _11-2-22 [TK]_
 
 - [Flask Mega Tutorial post 3](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)
 - [DB Link](https://www.seanlahman.com/baseball-archive/statistics/)
+- [WTForms documents v3.0.x](https://wtforms.readthedocs.io/en/3.0.x/)
