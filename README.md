@@ -99,6 +99,24 @@ _.vscode/settings.json_
 
 # Worklog
 
+_11-11-22 [TK]_
+- Tried small debugging of connection error but no luck
+-  Cant connect to the database for some reason
+- Verified onnection is running
+- Verifed 'web' user is created with 'dbrules' password
+- Verifed direct maraiDB client login
+- Still same error message:
+  ```
+  "Traceback (most recent call last):
+  File "/mnt/c/Users/timkl/Desktop/repos/DB-found-webApp/venv/lib/python3.8/site-packages/pymysql/connections.py", line 613, in connect
+    sock = socket.create_connection(
+  File "/usr/lib/python3.8/socket.py", line 808, in create_connection
+    raise err
+  File "/usr/lib/python3.8/socket.py", line 796, in create_connection
+    sock.connect(sa)
+  ConnectionRefusedError: [Errno 111] Connection refused"
+  ```
+
 _11-10-22 [TK]_
 - Setting up environment variables and config.py as defaults
   - .flaskenv and config.py setup
