@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class SearchForm(FlaskForm):
-    first_name = StringField('firstName', validators=[InputRequired()])
-    last_name = StringField('lastName', validators=[InputRequired()])
-    save_search = BooleanField('Save Search')
+    first_name = StringField('first_Name', validators=[InputRequired()])
+    # last_name = StringField('lastName', validators=[InputRequired()])
+    # save_search = BooleanField('Save Search')
     submit = SubmitField('Search')

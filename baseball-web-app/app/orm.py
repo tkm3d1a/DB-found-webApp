@@ -6,15 +6,15 @@ class Analysis(db.Model):
 	analysis_ID = db.Column(db.Integer,primary_key=True) # required
 	playerid = db.Column(db.String(9))
 	yearID = db.Column(db.Integer)
-  stint = db.Column(db.Integer)
-  team = db.Column(db.String(3))
-  lgid = db.Column(db.String(2))
+	stint = db.Column(db.Integer)
+	team = db.Column(db.String(3))
+	lgid = db.Column(db.String(2))
 	G = db.Column(db.Integer)
 	AB = db.Column(db.Integer)
 	R = db.Column(db.Integer)
 	H = db.Column(db.Integer)
-	B2 = db.Column(db.Integer)
-	B3 = db.Column(db.Integer)
+	B2 = db.Column(db.Integer) # Make sure analysis has variable set this way
+	B3 = db.Column(db.Integer) # Make sure analysis has variable set this way
 	HR = db.Column(db.Integer)
 	RBI = db.Column(db.Integer)
 	SB = db.Column(db.Integer)
@@ -27,12 +27,12 @@ class Analysis(db.Model):
 	SF = db.Column(db.Integer)
 	GIDP = db.Column(db.Integer)
 	OBP = db.Column(db.Numeric)
-  SLG = db.Column(db.Numeric)
+	SLG = db.Column(db.Numeric)
 	TB = db.Column(db.Integer)
 	RC = db.Column(db.Numeric)
 	RC27 = db.Column(db.Numeric)
-  PARC = db.Column(db.Numeric)
-  PARC27 = db.Column(db.Numeric)
+	PARC = db.Column(db.Numeric)
+	PARC27 = db.Column(db.Numeric)
 
 	def __repr__(self):
 		return "<analysis(player='%s',RC27='%s')>" % (self.playerid,self.RC27)

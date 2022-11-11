@@ -8,26 +8,27 @@
       {{ form.first_name.label }}<br>
       {{ form.first_name(size=32) }}
     </p>
-    <p>
-      {{ form.last_name.label }}<br>
-      {{ form.last_name(size=32) }}
-    </p>
-    <p>{{ form.save_search() }} {{ form.save_search.label }}</p>
     <p>{{ form.submit() }}</p>
   </form>
 
   {% if results %}
   <center>
-    <table bored="1">
+    <table border="1">
       <tr>
-        <th>Frst Name Entered</th>
-        <th>Last name entered</th>
+        <th>PlayerID </th>
+        <th>YearID</th>
+        <th>Stint</th>
+        <th>Team</th>
+        <th>Games</th>
       </tr>
 
       {% for line in results%}
       <tr>
-        <td>{{ line.firstName }}</td>
-        <td>{{ line.lastName }}</td>
+        <td>{{ line.playerid }}</td>
+        <td>{{ line.yearid }}</td>
+        <td>{{ line.stint }}</td>
+        <td>{{ line.team }}</td>
+        <td>{{ line.g }}</td>   
       </tr>
       {% endfor %}
 

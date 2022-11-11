@@ -99,6 +99,18 @@ _.vscode/settings.json_
 
 # Worklog
 
+_11-10-22 [TK]_
+- Setting up environment variables and config.py as defaults
+  - .flaskenv and config.py setup
+  - SECRETKEY not set as actual key
+  - User/password to be added to DB for use at this stage:
+    - Added using users.sql script
+      - user: web
+      - pw: dbrules
+      - SELECT, INSERT, UPDATE on all tables
+- Modified search route to return results from previously build analysis table
+- Socket onnection error currently, debug using config.py and .flaskenv setup for web@localhost and dbrules password
+
 _11-9-22 [TK]_
 - Had issue with ```flask run``` command
   - error on loading flask_sqlalchemy module
