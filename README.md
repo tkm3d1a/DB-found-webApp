@@ -116,6 +116,8 @@ _11-11-22 [TK]_
     sock.connect(sa)
   ConnectionRefusedError: [Errno 111] Connection refused"
   ```
+- Found reference in flask-sqlalchemy docs to try on next chance
+  - [flask-sqlalchemy query](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/queries/)
 
 _11-10-22 [TK]_
 - Setting up environment variables and config.py as defaults
@@ -193,3 +195,4 @@ _11-2-22 [TK]_
 - [Flask Mega Tutorial post 3](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)
 - [DB Link](https://www.seanlahman.com/baseball-archive/statistics/)
 - [WTForms documents v3.0.x](https://wtforms.readthedocs.io/en/3.0.x/)
+- [flask-sqlalchemy docs v3.0.x](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)
