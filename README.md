@@ -110,6 +110,8 @@ _11-12-22 [TK]_
       - I also had a lot of success testing with the VScode sql tools and mariaDB extensions
 - Added note in search.html about variable names
   - they must match exact to the ORM, DO NOT TREAT LIKE NORMAL SQL QUERY HERE
+- Updated environment variables and made sure it was clear what was needed for the connection issue
+- MVP of search page is up and running, need to verify stats are calced correctly and get the corrected/missing stats inserted into the DB
 
 _11-11-22 [TK]_
 - Tried small debugging of connection error but no luck
