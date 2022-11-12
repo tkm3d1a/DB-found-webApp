@@ -35,7 +35,7 @@ class Analysis(db.Model):
 	PARC27 = db.Column(db.Numeric)
 
 	def __repr__(self):
-		return "<analysis(player='%s',RC27='%s')>" % (self.playerid,self.RC27)
+		return "<analysis(player='%s',yearid=%s, games=%s, RC27='%s')>" % (self.playerid, self.yearID, self.G, self.RC27)
 
 	def setRC27(self):
 		if self.RC is None:

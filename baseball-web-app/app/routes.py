@@ -1,3 +1,5 @@
+import sys
+import logging
 from flask import render_template, request, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm, SearchForm
@@ -30,6 +32,8 @@ def search():
   if search_form.validate_on_submit():
     results = Analysis.query.filter_by(playerid=search_form.first_name.data).all()
     for row in results:
+      print(row, file=sys.stderr)
+      app.logger.info(row)
       if row.RC27 is None:
         row.setRC27()
     return render_template('search.html', title='Results', form=search_form, results=results)

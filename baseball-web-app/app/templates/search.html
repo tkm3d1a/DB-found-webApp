@@ -25,10 +25,10 @@
       {% for line in results%}
       <tr>
         <td>{{ line.playerid }}</td>
-        <td>{{ line.yearid }}</td>
+        <td>{{ line.yearID }}</td> <!--Variable names here must match exact to ORM-->
         <td>{{ line.stint }}</td>
         <td>{{ line.team }}</td>
-        <td>{{ line.g }}</td>   
+        <td>{{ line.G }}</td>   
       </tr>
       {% endfor %}
 

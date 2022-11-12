@@ -99,6 +99,18 @@ _.vscode/settings.json_
 
 # Worklog
 
+_11-12-22 [TK]_
+- Got search working finally
+- Issue was with running all the venv in WSL2 but MariaDB is run on windows
+  - Some helpful links if you run into this:
+    - [Find WSL 'localhost' equivelant to put in conn variable](https://devdojo.com/mvnarendrareddy/access-windows-localhost-from-wsl2)
+    - [Enable MariaDB user to have remote access from the seperate 'machine'](https://webdock.io/en/docs/how-guides/database-guides/how-enable-remote-access-your-mariadbmysql-database#:~:text=By%20default%2C%20MariaDB%20allows%20connection,IP%20addresses%20on%20the%20system.&text=Change%20the%20value%20of%20the,0.1%20to%200.0.)
+      - This one requires getting the IP that maria DB reports as attempting to connect when first setting up
+      - Use the main server running window to get this info
+      - I also had a lot of success testing with the VScode sql tools and mariaDB extensions
+- Added note in search.html about variable names
+  - they must match exact to the ORM, DO NOT TREAT LIKE NORMAL SQL QUERY HERE
+
 _11-11-22 [TK]_
 - Tried small debugging of connection error but no luck
 -  Cant connect to the database for some reason
