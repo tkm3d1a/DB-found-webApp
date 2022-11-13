@@ -6,6 +6,7 @@ class Analysis(db.Model):
 	analysis_ID = db.Column(db.Integer,primary_key=True) # required
 	playerid = db.Column(db.String(9))
 	yearID = db.Column(db.Integer)
+	#age = db.Column(db.Integer) #Age should be updated on every search
 	stint = db.Column(db.Integer)
 	team = db.Column(db.String(3))
 	lgid = db.Column(db.String(2))
@@ -68,3 +69,19 @@ class Analysis(db.Model):
 		else:
 			return x
 
+class Web_Users(db.Model):
+	__tablename__ = "webUsers" #Required
+
+	webuser_ID = db.Column(db.Integer, primary_key=True) #Required
+
+	def __repr__(self):
+		return "<webUsers(uid='%s')>" % (self.webuser_ID)
+
+
+class Saved_Searches(db.Model):
+	__tablename__ = "savedSearches" #Required
+
+	search_ID = db.Column(db.Integer, primary_key=True) #Required
+
+	def __repr__(self):
+		return "<savedSearches(searchID='%s')>" % (self.search_ID)

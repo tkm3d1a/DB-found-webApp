@@ -11,6 +11,7 @@ CREATE TABLE `analysis` (
   `analysis_ID` int(11) NOT NULL AUTO_INCREMENT,
   `playerID` varchar(9) NOT NULL,
   `yearID` smallint(6) NOT NULL,
+  `age` smallint(3) DEFAUlT NULL,
   `stint` smallint(2) NOT NULL,
   `team` char(3) DEFAULT NULL,
   `lgid` char(2) DEFAULT NULL,
@@ -137,13 +138,13 @@ UPDATE analysis a SET TB = h + b2 + 2*b3 + 3*hr;
 -- Update OBP Field
 -------------------
 UPDATE analysis a SET OBP = 
-        CASE 
-          WHEN ab+bb+COALESCE(hbp,0)+COALESCE(sf,0) = 0 THEN 0 
-          ELSE (
-            SELECT ((h+bb+COALESCE(hbp,0)) / (ab+bb+COALESCE(hbp,0)+COALESCE(sf,0)))
-            FROM analysis b 
-            WHERE a.playerid = b.playerid AND a.yearid = b.yearid AND a.stint = b.stint) 
-        END;
+  CASE 
+    WHEN ab+bb+COALESCE(hbp,0)+COALESCE(sf,0) = 0 THEN 0 
+    ELSE (
+      SELECT ((h+bb+COALESCE(hbp,0)) / (ab+bb+COALESCE(hbp,0)+COALESCE(sf,0)))
+      FROM analysis b 
+      WHERE a.playerid = b.playerid AND a.yearid = b.yearid AND a.stint = b.stint) 
+  END;
 
 ------------------
 -- Update RC Field
@@ -173,5 +174,15 @@ UPDATE analysis a SET RC27 = RC / 27;
 ----------------------
 --TODO:
 
+-------------------
+-- Update Age Field
+-- TODO:Update based on June 30th of the year being calculated for
+-- Also possibly remove and use ORM to update this field
+-------------------
+UPDATE analysis a SET age = 
+  CASE
+    WHEN <> THEN <>
+    ELSE <>
+  END;
 
 -- TODO: Decide if a trigger is needed to keep the table up to date?

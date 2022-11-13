@@ -99,6 +99,18 @@ _.vscode/settings.json_
 
 # Worklog
 
+_11-13-22 [TK]_
+- Setup flaskenv and config and users for laptop dev
+- added SavedSearches and WebUsers table creation scripts
+  - These are just empty skeletons so far
+  - To be updated when functionality is added to web-side of the house
+- added ORM class for both new tables
+  - Just skeleton classes to start with testing connections as needed
+- Started on minor table formatting as well
+  - Added style head to base.html
+  - messed with padding and text alignment
+  - needs more work, but can all be placed there
+
 _11-12-22 [TK]_
 - Got search working finally
 - Issue was with running all the venv in WSL2 but MariaDB is run on windows
