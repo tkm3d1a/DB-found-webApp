@@ -11,7 +11,10 @@ CREATE TABLE `analysis` (
   `analysis_ID` int(11) NOT NULL AUTO_INCREMENT,
   `playerID` varchar(9) NOT NULL,
   `yearID` smallint(6) NOT NULL,
-  `age` smallint(3) DEFAUlT NULL,
+  `birthYear` smallint(4) DEFAULT NULL,
+  `birthMonth` smallint(2) DEFAULT NULL,
+  `birthDay` smallint(2) DEFAULT NULL,
+  `ageForYear` smallint(3) DEFAULT NULL,
   `stint` smallint(2) NOT NULL,
   `team` char(3) DEFAULT NULL,
   `lgid` char(2) DEFAULT NULL,
@@ -175,14 +178,17 @@ UPDATE analysis a SET RC27 = RC / 27;
 --TODO:
 
 -------------------
--- Update Age Field
+-- Update birth values Field(s)
 -- TODO:Update based on June 30th of the year being calculated for
 -- Also possibly remove and use ORM to update this field
 -------------------
-UPDATE analysis a SET age = 
-  CASE
-    WHEN <> THEN <>
-    ELSE <>
-  END;
+UPDATE analysis a SET a.birthYear = 
+  (SELECT p.birthYear FROM people p where a.playerID = p.playerID);
+
+UPDATE analysis a SET a.birthMonth = 
+  (SELECT p.birthMonth FROM people p where a.playerID = p.playerID);
+
+UPDATE analysis a SET a.birthDay = 
+  (SELECT p.birthDay FROM people p where a.playerID = p.playerID);
 
 -- TODO: Decide if a trigger is needed to keep the table up to date?

@@ -97,7 +97,24 @@ _.vscode/settings.json_
 }
 ```
 
+Database prep required
+- Load the `2019lahman_base_dump.sql` file contained in `./sql/dbDumps`
+  - MaraiDB does not contain default collate set, so all COLLATE lines need to be modified to: `COLLATE utf8mb4_general_ci`
+- Load all scripts in `./sql/scripts` folder
+  
+```sql
+source *script file paths go here*
+```
+
 # Worklog
+
+_11-16-22 [TK]_
+- Tested loading of lahman database file
+  - Requires modificatiosn to load correctly in maraiDB
+  - Notes added on what changed to load successfully
+- Adding scripts information to run
+- Modified analysistable and orm.py file
+  - not full debugged yet or fully loaded
 
 _11-13-22 [TK]_
 - Setup flaskenv and config and users for laptop dev
