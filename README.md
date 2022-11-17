@@ -119,6 +119,7 @@ _11-16-22 [TK]_
 - Discovered using WSL, the IP will reset on computer restarting
   - Need to follow steps to correct the IP for the connection and then the user that is logging in
   - This is manual process and a pain, should work on a way to automate the database user creation or something?
+  - [WSL ip changes/possible static fixes](https://dev.to/agiboire/fixed-ip-for-wsl-instances-2ilf#:~:text=Every%20time%20a%20WSL%20instance,the%20WSL%20instance%20is%20running.)
 
 _11-13-22 [TK]_
 - Setup flaskenv and config and users for laptop dev
