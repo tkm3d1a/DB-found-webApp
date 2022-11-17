@@ -74,7 +74,11 @@ class Analysis(db.Model):
 
 	def updateAge(self):
 		#from june 30th of the year being pulled up
-		self.ageForYear = self.yearID
+		if(self.birthMonth < 7):
+			self.ageForYear = self.yearID - self.birthYear
+		else:
+			self.ageForYear = self.yearID - self.birthYear - 1
+		db.session.commit()
 
 class Web_Users(db.Model):
 	__tablename__ = "webUsers" #Required

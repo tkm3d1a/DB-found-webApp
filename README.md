@@ -114,7 +114,11 @@ _11-16-22 [TK]_
   - Notes added on what changed to load successfully
 - Adding scripts information to run
 - Modified analysistable and orm.py file
-  - not full debugged yet or fully loaded
+  - age is now calculated on each search
+  - Can probably change to just statically calculate instead of doing the calc on every search, or can just set it to update if the value is null only
+- Discovered using WSL, the IP will reset on computer restarting
+  - Need to follow steps to correct the IP for the connection and then the user that is logging in
+  - This is manual process and a pain, should work on a way to automate the database user creation or something?
 
 _11-13-22 [TK]_
 - Setup flaskenv and config and users for laptop dev

@@ -9,11 +9,11 @@ DROP TABLE IF EXISTS `analysis`;
 SET character_set_client = utf8mb4;
 CREATE TABLE `analysis` (
   `analysis_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `playerID` varchar(9) NOT NULL,
+  `playerID` varchar(9) DEFAULT NULL,
   `yearID` smallint(6) NOT NULL,
-  `birthYear` smallint(4) DEFAULT NULL,
-  `birthMonth` smallint(2) DEFAULT NULL,
-  `birthDay` smallint(2) DEFAULT NULL,
+  `birthYear` int(11) DEFAULT NULL,
+  `birthMonth` int(11) DEFAULT NULL,
+  `birthDay` int(11) DEFAULT NULL,
   `ageForYear` smallint(3) DEFAULT NULL,
   `stint` smallint(2) NOT NULL,
   `team` char(3) DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `analysis` (
   PRIMARY KEY (`analysis_ID`),
   UNIQUE KEY `analysisID` (`playerID`,`yearID`, `stint`),
   CONSTRAINT `analysis_peoplefk` FOREIGN KEY (`playerID`) REFERENCES `people` (`playerID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Inserting base values into analysis set
 -- These are just the values to use for starting, further calcs needed to populate all values in table
