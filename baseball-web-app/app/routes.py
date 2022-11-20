@@ -6,7 +6,7 @@ from app import app
 from app.forms import LoginForm, SearchForm
 from app.orm import Analysis
 
-@app.route('/')
+
 def home():
   user = {'username': 'Miguel'}
   posts = [
@@ -22,11 +22,6 @@ def home():
   results = []
   return render_template('index.html', title='Home', user=user, posts=posts)
 
-@app.route('/login')
-def login():
-  form = LoginForm()
-  return render_template('login.html', title='Sign in', form=form)
-
 @app.route('/search', methods=['GET','POST'])
 def search():
   search_form = SearchForm()
@@ -41,32 +36,30 @@ def search():
     return render_template('search.html', title='Results', form=search_form, results=results)
   return render_template('search.html', title='Search', form=search_form)
 
-@app.route('/signin', methods =['GET', 'POST'])
-def signin():
+
+@app.route('/')
+@app.route('/login', methods =['GET', 'POST'])
+def login():
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
         con = pymysql.connect(host='localhost', user='root', password='7998', db='baseball', cursorclass=pymysql.cursors.DictCursor)
         cursor = con.cursor()
-        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))
-        accounts = cursor.fetchall()
+        cursor.execute('SELECT * FROM webusers WHERE username = %s AND password = %s', (username, password))
         account = cursor.fetchone()
 
-        for row in accounts:
-            print(row)
-
         if account:
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+            # session['loggedin'] = True
+            # session['id'] = account['id']
+            # session['username'] = account['username']
             msg = 'Logged in successfully !'
             return render_template('welcome.html', msg = msg)
         else:
             msg = 'Incorrect username / password !'
     return render_template('signin.html', msg = msg)
 
-@app.route('/register')
+@app.route('/register', methods =['GET', 'POST'])
 def register():
     return "You shall register...!"
 
