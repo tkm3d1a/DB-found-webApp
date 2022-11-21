@@ -48,7 +48,6 @@ def login():
         cursor = con.cursor()
         cursor.execute('SELECT * FROM webusers WHERE username = %s AND password = %s', (username, password))
         account = cursor.fetchone()
-
         if account:
             # session['loggedin'] = True
             # session['id'] = account['id']
