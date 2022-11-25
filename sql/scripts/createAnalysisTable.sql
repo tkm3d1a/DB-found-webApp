@@ -42,6 +42,13 @@ CREATE TABLE `analysis` (
   `RC27` numeric(5,2) DEFAULT NULL,
   `PARC` numeric(5,1) DEFAULT NULL,
   `PARC27` numeric(5,2) DEFAULT NULL,
+-- NEW VARIABLES - KP
+  'W' numeric(5,2) DEFAULT NULL,
+  'SSB' numeric(5,2) DEFAULT NULL,
+  'TOB' numberic(5,2) DEFAULT NULL,
+  'OUTS' smallint(6) DEFAULT NULL,
+  'PA' numeric(5,2) DEFAULT NULL,
+  'BA' numeric(5,2) DEFAULT NULL,
   PRIMARY KEY (`analysis_ID`),
   UNIQUE KEY `analysisID` (`playerID`,`yearID`, `stint`),
   CONSTRAINT `analysis_peoplefk` FOREIGN KEY (`playerID`) REFERENCES `people` (`playerID`)
@@ -58,13 +65,13 @@ CREATE TABLE `analysis` (
 -- PARC,
 -- PARC27
 
--- Not currently being created in table, I'll figure out potential values/rounding - KP 
--- TOB (Time on Base),
--- O (Outs),
--- BA (Bases Advanced),
--- PA (Plate Appearances),
--- W (Walks),
--- SSB (Sacrifices and Stolen Bases)
+-- NEW VARIABLES - KP
+-- TOB (Time on Base) (Not required, but used to calculate RC)
+-- OUTS (Not required, but used to calculate PARC27)
+-- BA (Bases Advanced) (Not required, but used to calculate RC)
+-- PA (Plate Appearances) (Not required, but used to calculate RC)
+-- W (Walks) (Not required, but used to calculate BA)
+-- SSB (Sacrifices and Stolen Bases) (Not required, but used to calculate BA)
 
 INSERT INTO analysis(
   playerid,
@@ -146,10 +153,11 @@ FROM batting GROUP BY playerid,yearid,stint;
 ------------------
 UPDATE analysis a SET TB = h + b2 + 2*b3 + 3*hr;
 -- The formula according to the project description is:
--- UPDATE analysis a SET TB = H + (2 * 2B) + (3 * 3B) + (4 * HR);
+-- UPDATE analysis a SET TB = H + (2 * B2) + (3 * B3) + (4 * HR);
 
 -------------------
 -- Update OBP Field
+-- Might not be necssary depending on which calculation we use - KP
 -------------------
 UPDATE analysis a SET OBP = 
   CASE 
@@ -162,6 +170,7 @@ UPDATE analysis a SET OBP =
 
 ------------------
 -- Update RC Field
+-- Different formula below - KP
 ------------------
 UPDATE analysis a SET RC = OBP * TB;
 
@@ -175,16 +184,19 @@ UPDATE analysis a SET SLG = (h + b2*2 + b3*3 + hr*4) / AB;
 --------------------
 -- Update RC27 Field
 -- no concensus on formula past RC / 27
+-- Not sure this calculation is necessary? Seems like only PARC27 is required. - KP
 --------------------
 UPDATE analysis a SET RC27 = RC / 27;
 
 --------------------
 -- Update PARC Field
+-- Different formaula below; had to put it after the other calculations - KP
 --------------------
 --TODO:
 
 ----------------------
 -- Update PARC27 Field
+-- Different formaula below; had to put it after the other calculations - KP
 ----------------------
 --TODO:
 
@@ -220,9 +232,9 @@ UPDATE analysis a SET SSB = (SH + SF + SB) * 0.52;
 UPDATE analysis a SET TOB = H + W + HBP - CS + GIDP;
 
 ----------------------
--- Update O Field
+-- Update OUTS Field
 ----------------------
-UPDATE analysis a SET O = AB + SF + SH + CS + GIDP - H;
+UPDATE analysis a SET OUTS = AB + SF + SH + CS + GIDP - H;
 
 ----------------------
 -- Update PA Field
@@ -252,4 +264,4 @@ UPDATE analysis a1 SET a1.PARC =
 ----------------------
 -- Update PARC27 Field
 ----------------------
-UPDATE analysis a SET PARC27 = PARC * 27 / O;
+UPDATE analysis a SET PARC27 = PARC * 27 / OUTS;
