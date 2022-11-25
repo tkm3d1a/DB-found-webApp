@@ -57,6 +57,15 @@ CREATE TABLE `analysis` (
 -- RC27,
 -- PARC,
 -- PARC27
+
+-- Not currently being created in table, I'll figure out potential values/rounding - KP 
+-- TOB (Time on Base),
+-- O (Outs),
+-- BA (Bases Advanced),
+-- PA (Plate Appearances),
+-- W (Walks),
+-- SSB (Sacrifices and Stolen Bases)
+
 INSERT INTO analysis(
   playerid,
   yearid,
@@ -136,6 +145,8 @@ FROM batting GROUP BY playerid,yearid,stint;
 -- Update TB field
 ------------------
 UPDATE analysis a SET TB = h + b2 + 2*b3 + 3*hr;
+-- The formula according to the project description is:
+-- UPDATE analysis a SET TB = H + (2 * 2B) + (3 * 3B) + (4 * HR);
 
 -------------------
 -- Update OBP Field
@@ -192,3 +203,53 @@ UPDATE analysis a SET a.birthDay =
   (SELECT p.birthDay FROM people p where a.playerID = p.playerID);
 
 -- TODO: Decide if a trigger is needed to keep the table up to date?
+
+----------------------
+-- Update W Field
+----------------------
+UPDATE analysis a SET W = (BB + HBP - IBB) * 0.26;
+
+----------------------
+-- Update SSB Field
+----------------------
+UPDATE analysis a SET SSB = (SH + SF + SB) * 0.52;
+
+----------------------
+-- Update TOB Field
+----------------------
+UPDATE analysis a SET TOB = H + W + HBP - CS + GIDP;
+
+----------------------
+-- Update O Field
+----------------------
+UPDATE analysis a SET O = AB + SF + SH + CS + GIDP - H;
+
+----------------------
+-- Update PA Field
+----------------------
+UPDATE analysis a SET PA = AB + W + HBP + SF + SH;
+
+----------------------
+-- Update BA Field
+----------------------
+UPDATE analysis a SET BA = TB + W + SSB;
+
+------------------
+-- Update RC Field
+------------------
+UPDATE analysis a SET RC = TOB * BA / PA;
+
+--------------------
+-- Update PARC Field
+--------------------
+UPDATE analysis a1 SET a1.PARC = 
+  (SELECT (a2.RC / (t.BPF + 100)) / 200 
+  FROM analysis a2, teams t 
+  WHERE a2.playerID = a1.playerID 
+   AND a2.teamID = t.teamID
+   );
+
+----------------------
+-- Update PARC27 Field
+----------------------
+UPDATE analysis a SET PARC27 = PARC * 27 / O;
