@@ -107,6 +107,9 @@ source *script file paths go here*
 ```
 
 # Worklog
+_11-25-22 [KP]_
+- Added SQL statements for subvariables for calculation
+- Updated SQL statements for RC, PARC, PARC27
 
 _11-16-22 [TK]_
 - Tested loading of lahman database file
