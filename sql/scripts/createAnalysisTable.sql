@@ -220,7 +220,11 @@ UPDATE analysis a SET BA = TB + W + SSB;
 ------------------
 -- Update RC Field
 ------------------
-UPDATE analysis a SET RC = TOB * BA / PA;
+UPDATE analysis a SET RC = 
+  CASE
+    WHEN PA = 0 THEN 0
+    ELSE TOB * BA / PA
+   END;
 
 --------------------
 -- Update PARC Field
@@ -238,7 +242,11 @@ UPDATE analysis a1 SET a1.PARC =
 -------------------------------
 -- Update PARC27 and RC27 Field
 -------------------------------
-UPDATE analysis a SET PARC27 = PARC * 27 / OUTS;
+UPDATE analysis a SET PARC27 = 
+  CASE 
+    WHEN OUTS = 0 THEN 0
+    ELSE PARC * 27 / OUTS
+  END;
 UPDATE analysis a SET RC27 = RC / 27;
 
 select playerid, yearid, rc, parc, rc27, parc27 from analysis where playerid='ruthba01';
