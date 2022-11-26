@@ -11,6 +11,7 @@ if len(sys.argv) != 2:
 params[0] = sys.argv [1]
 
 # Create connection to database
+# Make sure web@localhost has permissions to access analysis table
 con = pymysql.connect(host='localhost', user='web', password='dbrules', db='baseball')
 
 try:
