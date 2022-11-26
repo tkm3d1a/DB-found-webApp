@@ -249,4 +249,13 @@ UPDATE analysis a SET PARC27 =
   END;
 UPDATE analysis a SET RC27 = RC / 27;
 
+-------------------------------
+-- Update Name Field
+-------------------------------
+UPDATE analysis a SET Name =
+    (SELECT CONCAT(nameFirst, ' ', nameLast) 
+    FROM people p
+    WHERE p.playerID = a.playerID
+    ); 
+
 select playerid, yearid, rc, parc, rc27, parc27 from analysis where playerid='ruthba01';
