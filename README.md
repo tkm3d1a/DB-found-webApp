@@ -111,6 +111,7 @@ source *script file paths go here*
 _11-25-22 [KP]_
 - Updated SQL statements for RC and PARC27 to account for division of 0 possibilities
 - Added python script for querying the analysis table and printing in table format
+  - Currently takes in playerID, will need to adjust for name search
 
 _11-26-22 [TK]_
 - Updated createAnanlysis to fix running errors
