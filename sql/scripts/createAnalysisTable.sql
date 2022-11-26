@@ -16,7 +16,7 @@ CREATE TABLE `analysis` (
   `birthDay` int(11) DEFAULT NULL,
   `ageForYear` smallint(3) DEFAULT NULL,
   `stint` smallint(2) NOT NULL,
-  `team` char(3) DEFAULT NULL,
+  `teamID` char(3) DEFAULT NULL,
   `lgid` char(2) DEFAULT NULL,
   `G` smallint(6) DEFAULT NULL,
   `AB` smallint(6) DEFAULT NULL,
@@ -42,13 +42,13 @@ CREATE TABLE `analysis` (
   `RC27` numeric(5,2) DEFAULT NULL,
   `PARC` numeric(5,1) DEFAULT NULL,
   `PARC27` numeric(5,2) DEFAULT NULL,
--- NEW VARIABLES - KP
-  'W' numeric(5,2) DEFAULT NULL,
-  'SSB' numeric(5,2) DEFAULT NULL,
-  'TOB' numberic(5,2) DEFAULT NULL,
-  'OUTS' smallint(6) DEFAULT NULL,
-  'PA' numeric(5,2) DEFAULT NULL,
-  'BA' numeric(5,2) DEFAULT NULL,
+  -- NEW VARIABLES - KP
+  `W` numeric(5,2) DEFAULT NULL,
+  `SSB` numeric(5,2) DEFAULT NULL,
+  `TOB` numeric(5,2) DEFAULT NULL,
+  `OUTS` smallint(6) DEFAULT NULL,
+  `PA` numeric(5,2) DEFAULT NULL,
+  `BA` numeric(5,2) DEFAULT NULL,
   PRIMARY KEY (`analysis_ID`),
   UNIQUE KEY `analysisID` (`playerID`,`yearID`, `stint`),
   CONSTRAINT `analysis_peoplefk` FOREIGN KEY (`playerID`) REFERENCES `people` (`playerID`)
@@ -77,7 +77,7 @@ INSERT INTO analysis(
   playerid,
   yearid,
   stint,
-  team,
+  teamID,
   lgid,
   g,
   ab,
@@ -110,15 +110,15 @@ SELECT
   3b,
   hr,
   rbi,
-  sb,
-  cs,
+  COALESCE(sb,0),
+  COALESCE(cs,0),
   bb,
   so,
-  ibb,
-  hbp,
-  sh,
-  sf,
-  gidp 
+  COALESCE(ibb,0),
+  COALESCE(hbp,0),
+  COALESCE(sh,0),
+  COALESCE(sf,0),
+  COALESCE(gidp,0)
 FROM batting GROUP BY playerid,yearid,stint;
 
 ----------------------------------------------------------------
@@ -167,13 +167,7 @@ UPDATE analysis a SET OBP =
       FROM analysis b 
       WHERE a.playerid = b.playerid AND a.yearid = b.yearid AND a.stint = b.stint) 
   END;
-
-------------------
--- Update RC Field
--- Different formula below - KP
-------------------
-UPDATE analysis a SET RC = OBP * TB;
-
+  
 -------------------
 -- Update SLG field
 -- the formula for slugging percentage is: (1B + 2Bx2 + 3Bx3 + HRx4)/AB.
@@ -181,29 +175,8 @@ UPDATE analysis a SET RC = OBP * TB;
 -------------------
 UPDATE analysis a SET SLG = (h + b2*2 + b3*3 + hr*4) / AB;
 
---------------------
--- Update RC27 Field
--- no concensus on formula past RC / 27
--- Not sure this calculation is necessary? Seems like only PARC27 is required. - KP
---------------------
-UPDATE analysis a SET RC27 = RC / 27;
-
---------------------
--- Update PARC Field
--- Different formaula below; had to put it after the other calculations - KP
---------------------
---TODO:
-
-----------------------
--- Update PARC27 Field
--- Different formaula below; had to put it after the other calculations - KP
-----------------------
---TODO:
-
 -------------------
 -- Update birth values Field(s)
--- TODO:Update based on June 30th of the year being calculated for
--- Also possibly remove and use ORM to update this field
 -------------------
 UPDATE analysis a SET a.birthYear = 
   (SELECT p.birthYear FROM people p where a.playerID = p.playerID);
@@ -214,12 +187,10 @@ UPDATE analysis a SET a.birthMonth =
 UPDATE analysis a SET a.birthDay = 
   (SELECT p.birthDay FROM people p where a.playerID = p.playerID);
 
--- TODO: Decide if a trigger is needed to keep the table up to date?
-
 ----------------------
 -- Update W Field
 ----------------------
-UPDATE analysis a SET W = (BB + HBP - IBB) * 0.26;
+UPDATE analysis a SET W = (BB + HBP - IBB)* 0.26;
 
 ----------------------
 -- Update SSB Field
@@ -255,13 +226,19 @@ UPDATE analysis a SET RC = TOB * BA / PA;
 -- Update PARC Field
 --------------------
 UPDATE analysis a1 SET a1.PARC = 
-  (SELECT (a2.RC / (t.BPF + 100)) / 200 
+  (SELECT (a2.RC / ((t.BPF + 100) / 200))
   FROM analysis a2, teams t 
-  WHERE a2.playerID = a1.playerID 
-   AND a2.teamID = t.teamID
+  WHERE a2.playerID = a1.playerID
+    AND a2.yearID = a1.yearID
+    AND a2.stint = a1.stint
+    AND a2.teamID = t.teamID
+    AND a2.yearID = t.yearID
    );
 
-----------------------
--- Update PARC27 Field
-----------------------
+-------------------------------
+-- Update PARC27 and RC27 Field
+-------------------------------
 UPDATE analysis a SET PARC27 = PARC * 27 / OUTS;
+UPDATE analysis a SET RC27 = RC / 27;
+
+select playerid, yearid, rc, parc, rc27, parc27 from analysis where playerid='ruthba01';

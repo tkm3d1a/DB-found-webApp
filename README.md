@@ -107,6 +107,15 @@ source *script file paths go here*
 ```
 
 # Worklog
+
+_11-26-22 [TK]_
+- Updated createAnanlysis to fix running errors
+  - modified to colasce values on insertion instead of having colasce be in every update calculation
+  - PARC was returning multiple results, added predicates to correct this
+  - Added RC27 back in at end to try and compare against parc27
+    - Calculation may be incorrect, but not needed so to investigate later
+
+
 _11-25-22 [KP]_
 - Added SQL statements for subvariables for calculation
 - Updated SQL statements for RC, PARC, PARC27
