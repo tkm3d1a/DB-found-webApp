@@ -1,3 +1,4 @@
+# Format for terminal is: python [filename] [playerID]
 import pymysql
 import sys
 
