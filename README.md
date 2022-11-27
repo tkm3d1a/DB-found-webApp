@@ -108,6 +108,12 @@ source *script file paths go here*
 
 # Worklog
 
+_11-27-22 [TK]_
+- Updated PA calculation to use proper walks (BB instead of W)
+- Added playerName field
+  - This might be not needed, pending how to store/save names
+  - Might be best to keep first and last seperate in table or just use first and last searching of People to return a playerid to use in the analysis table
+
 _11-25-22 [KP]_
 - Updated SQL statements for RC and PARC27 to account for division of 0 possibilities
 - Added python script for querying the analysis table and printing in table format

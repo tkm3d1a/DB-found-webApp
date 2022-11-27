@@ -11,10 +11,15 @@
 <html>
     <head>
       {% if title %}
-      <title>{{ title }} - Microblog</title>
+      <title>{{ title }}</title>
       {% else %}
       <title>Welcome to Microblog</title>
       {% endif %}
+
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='loginstyle.css') }}">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+      <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     </head>
     <body>
         <div>Microblog: 

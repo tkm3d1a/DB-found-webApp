@@ -37,6 +37,12 @@ class Analysis(db.Model):
 	RC27 = db.Column(db.Numeric)
 	PARC = db.Column(db.Numeric)
 	PARC27 = db.Column(db.Numeric)
+	W = db.Column(db.Numeric)
+	SSB = db.Column(db.Numeric)
+	TOB = db.Column(db.Numeric)
+	OUTS = db.Column(db.Integer)
+	PA = db.Column(db.Numeric)
+	BA = db.Column(db.Numeric)
 
 	def __repr__(self):
 		return "<analysis(player='%s',yearid=%s, games=%s, RC27='%s')>" % (self.playerid, self.yearID, self.G, self.RC27)

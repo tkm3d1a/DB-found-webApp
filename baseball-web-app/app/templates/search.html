@@ -16,7 +16,7 @@
     <table border="1">
       <tr>
         <th>Year</th>
-        <th>Age</th> <!--FIXME:Missing in ORM-->
+        <th>Age</th>
         <th>Team</th>
         <th>Lg</th>
         <th>G</th>
@@ -48,12 +48,13 @@
 
       {% for line in results%}
       <tr>
+        <!--Variable names here must match exact to ORM-->
         <td>{{ line.yearID }}</td>
-        <td>{{ line.ageForYear }}</td> <!--Variable names here must match exact to ORM-->
+        <td>{{ line.ageForYear }}</td> 
         <td>{{ line.team }}</td>
         <td>{{ line.lgid }}</td>
         <td>{{ line.G }}</td>
-        <td>PA</td>
+        <td>{{ line.PA }}</td>
         <td>{{ line.AB }}</td>
         <td>{{ line.R }}</td>
         <td>{{ line.H }}</td>
