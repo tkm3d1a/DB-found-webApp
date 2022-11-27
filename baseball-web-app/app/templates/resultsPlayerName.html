@@ -1,0 +1,22 @@
+{% extends "search.html" %}
+
+{% block nameResultsContent %}
+<center>
+  <h1>Players Found</h1>
+  <table border="1">
+    <tr>
+      <th>Player ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+
+    {% for line in nameResults%}
+    <tr>
+      <!--Variable names here must match exact to ORM-->
+      <td>{{ line.playerID }}</td>
+      <td>{{ line.nameFirst }}</td> 
+      <td>{{ line.nameLast }}</td>
+    </tr>
+    {% endfor %}
+</center>
+{% endblock %}

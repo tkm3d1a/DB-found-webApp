@@ -102,3 +102,14 @@ class Saved_Searches(db.Model):
 
 	def __repr__(self):
 		return "<savedSearches(searchID='%s')>" % (self.search_ID)
+
+class People(db.Model):
+  __tablename__ = "people"
+  
+  playerID = db.Column(db.String(9), primary_key=True) #required
+  nameFirst = db.Column(db.String(255))
+  nameLast = db.Column(db.String(255))
+  
+  def __repr__(self):
+    return "<people(playerID='%s', nameFirst='%s', nameLast='%s')>" % (self.playerID, self.nameFirst, self.nameLast)
+  

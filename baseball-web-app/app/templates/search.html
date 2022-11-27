@@ -5,84 +5,19 @@
   <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
     <p>
-      {{ form.first_name.label }}<br>
-      {{ form.first_name(size=32) }}
+      {# {{ form.player_id.label }} {{ form.player_id(size=32) }}<br> #}
+      {{ form.first_name.label }} {{ form.first_name(size=32) }}<br>
+      {{ form.last_name.label }} {{ form.last_name(size=32) }} <br>
     </p>
     <p>{{ form.submit() }}</p>
   </form>
 
   {% if results %}
-  <center>
-    <table border="1">
-      <tr>
-        <th>Year</th>
-        <th>Age</th>
-        <th>Team</th>
-        <th>Lg</th>
-        <th>G</th>
-        <th>PA</th> <!--FIXME:Missing in ORM-->
-        <th>AB</th>
-        <th>R</th>
-        <th>H</th>
-        <th>2B</th>
-        <th>3B</th>
-        <th>HR</th>
-        <th>RBI</th>
-        <th>SB</th>
-        <th>CS</th>
-        <th>BB</th>
-        <th>SO</th>
-        <th>OBP</th>
-        <th>SLG</th>
-        <th>OPS</th><!--FIXME:Missing in ORM-->
-        <th>OPS+</th><!--FIXME:Missing in ORM-->
-        <th>TB</th>
-        <th>GDP</th>
-        <th>HBP</th>
-        <th>SH</th>
-        <th>SF</th>
-        <th>IBB</th>
-        <th>POS</th><!--FIXME:Missing in ORM-->
-        <th>Awards</th><!--FIXME:Missing in ORM-->
-      </tr>
+    {% block resultsContent %}{% endblock %}
+  {% endif %}
 
-      {% for line in results%}
-      <tr>
-        <!--Variable names here must match exact to ORM-->
-        <td>{{ line.yearID }}</td>
-        <td>{{ line.ageForYear }}</td> 
-        <td>{{ line.team }}</td>
-        <td>{{ line.lgid }}</td>
-        <td>{{ line.G }}</td>
-        <td>{{ line.PA }}</td>
-        <td>{{ line.AB }}</td>
-        <td>{{ line.R }}</td>
-        <td>{{ line.H }}</td>
-        <td>{{ line.B2 }}</td>
-        <td>{{ line.B3 }}</td>
-        <td>{{ line.HR }}</td>
-        <td>{{ line.RBI }}</td>
-        <td>{{ line.SB }}</td>
-        <td>{{ line.CS }}</td>
-        <td>{{ line.BB }}</td>
-        <td>{{ line.SO }}</td>
-        <td>{{ line.OBP }}</td>
-        <td>{{ line.SLG }}</td>
-        <td>OPS</td>
-        <td>OPS+</td>
-        <td>{{ line.TB }}</td>
-        <td>{{ line.GIDP }}</td>
-        <td>{{ line.HBP }}</td>
-        <td>{{ line.SH }}</td>
-        <td>{{ line.SF }}</td>
-        <td>{{ line.IBB }}</td>
-        <td>POSITIONS</td>
-        <td>AWARDS</td>
-      </tr>
-      {% endfor %}
-
-    </table>
-  </center>
+  {% if nameResults %}
+    {% block nameResultsContent %}{% endblock %}
   {% endif %}
   
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="main">
     <p class="sign" align="center">Sign In</p>
-    <form class="form1" action="{{ url_for('login') }}" method="post">
+    <form class="form1" action="{{ url_for('sign_in') }}" method="post">
         <div align="center" style="color:red">{{ msg }}</div>
         <input id="username" name="username" class="un " type="text" align="center" placeholder="Username"/>
         <input id="password" name="password" class="pass" type="password" align="center" placeholder="Password"/>
