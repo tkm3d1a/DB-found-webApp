@@ -13,21 +13,19 @@ db_host = os.environ.get('DB_HOST')
 db_port = os.environ.get('DB_PORT')
 db_name = os.environ.get('DB_NAME')
 
+# Base Session details?
+# sessionCurrent = session
+# session['loggedin'] = False
+
 @app.route('/')
 def home():
-  user = {'username': 'Miguel'}
-  posts = [
-      {
-          'author': {'username': 'John'},
-          'body': 'Beautiful day in Portland!'
-      },
-      {
-          'author': {'username': 'Susan'},
-          'body': 'The Avengers movie was so cool!'
-      }
-  ]
-  results = []
-  return render_template('index.html', title='Home', user=user, posts=posts)
+  
+  print(session)
+  
+  if (session.get('loggedin', False)):
+    return render_template('index.html', title='Home', session=session)
+  else:
+    return render_template('index.html', title='Home - Logged in', session=session)
 
 @app.route('/search', methods=['GET','POST'])
 def search():
@@ -79,28 +77,42 @@ def sign_in():
         db=db_name, 
         cursorclass=pymysql.cursors.DictCursor)
       cursor = con.cursor()
+      
       cursor.execute(
         'SELECT * FROM webusers WHERE username = %s AND password_pt = %s', 
         (username, 
          password))
       account = cursor.fetchone()
+      print(session)
+      print(username)
+      print(password)
       if account:
-          # session['loggedin'] = True
-          session['id'] = account['webuser_ID']
-          session['username'] = account['username']
-          msg = 'Logged in successfully !'
-          return render_template('welcome.html', msg = msg, session = session)
+        session['loggedin'] = True
+        session['id'] = account['webuser_ID']
+        session['username'] = account['username']
+        msg = 'Logged in successfully !'
+        print(session)
+        return render_template('welcome.html', msg=msg, session=session)
       else:
-          msg = 'Incorrect username / password !'
+        session['loggedin'] = False
+        msg = 'Incorrect username / password !'
+          
+  print(session)
+  
   return render_template('signin.html', title="Sign In", msg = msg)
 
 @app.route('/register', methods =['GET', 'POST'])
 def register():
-    return "You shall register...!"
+  msg = ''
+  # needs if post method for signing up user
+  # should have logic on checking email and password
+  # need hashing at minimum to store password
+  return render_template('register.html', title="Register", msg = msg)
 
 @app.route('/logout')
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('username', None)
-    return redirect(url_for('sign_in'))
+  print(session)
+  session.pop('id', None)
+  session.pop('username', None)
+  session['loggedin'] = False
+  return redirect(url_for('sign_in'))

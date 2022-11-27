@@ -83,6 +83,7 @@ pip install python-dotenv==0.21.0
 pip install flask-wtf==1.0.1
 pip install sqlalchemy==1.4.43
 pip install flask-sqlalchemy==3.0.2
+pip install flask-session==0.4.0
 ```
 
 If running vscode as editor, add the following environment settings...

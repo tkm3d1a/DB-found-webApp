@@ -3,6 +3,8 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
   SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+  SESSION_PERMANENT = False
+  SESSION_TYPE = 'filesystem'
 
   db_user = os.environ.get('DB_USER')
   db_password = os.environ.get('DB_PW')

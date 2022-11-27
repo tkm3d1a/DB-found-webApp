@@ -1,5 +1,5 @@
 FLASK_APP=baseball-web-app.py
-SECRET_KEY=this-is-a-secret
+SECRET_KEY=1234567890abcdefg1234abcde
 DATABASE_URL_TK=mysql+pymysql://webwsl:dbrules@172.21.0.1:3306/webapp_baseball
 DB_USER=webwsl
 DB_PW=dbrules
