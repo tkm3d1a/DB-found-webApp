@@ -50,22 +50,18 @@ def search():
       noResults = True
       return render_template('resultsNone.html', title='Search Again', form=search_form, nameResults=nameResults, msg=msg, noResults=noResults)
         
-    for row in nameResults:
-      print(row)
-      playerIDS.append(row.playerID)
-      
-    selectedID = playerIDS[0]
-    print(selectedID)
-    
-    results = Analysis.query.filter_by(playerid=selectedID).all()
-    for row in results:
-      row.updateAge()
-      if row.RC27 is None:
-        row.setRC27()
-      print(row)
+    # selectedID = playerIDS[0]
+    # print(selectedID)
     
     if(len(nameResults) == 1):
       # return redirect(url_for('battingAnalysis',res=results))
+      results = Analysis.query.filter_by(playerid=nameResults[0].playerID).all()
+      for row in results:
+        row.updateAge()
+        if row.RC27 is None:
+          row.setRC27()
+        print(row)
+        
       return render_template('resultsPlayerID.html',
                              title='Results', 
                              form=search_form,
@@ -73,6 +69,15 @@ def search():
                              results=results)
     
     if(len(nameResults) > 1):
+      # i = 0
+      for row in nameResults:
+        print(row)
+        playerIDS.append(row.playerID)
+        # select_form.player_id.choices.append((row.playerid,i))
+        # i += 1
+        
+      select_form.player_id.choices = [(g.playerID, " ".join([g.nameFirst, g.nameLast])) for g in nameResults]
+      
       return render_template('resultsPlayerName.html', 
                              title='Player List', 
                              form=search_form,

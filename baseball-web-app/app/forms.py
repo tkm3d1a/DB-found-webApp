@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import DataRequired, InputRequired
 
 class LoginForm(FlaskForm):
@@ -27,4 +27,5 @@ class SelectForm(FlaskForm):
     first_name = StringField('First Name')
     last_name = StringField('Last Name')
     # save_search = BooleanField('Save Search')
+    player_id = SelectField('PlayerID')
     submit = SubmitField('Search')

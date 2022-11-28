@@ -131,6 +131,11 @@ _11-27-22 [TK]_
   - Need to add link to go to aplayers page once created
   - Probably a simple redirect, using variable to a playerID
 - General cleanup needs to be completed of unused variables, imports, etc
+- Added Search drop down when more than one name is returned
+  - Issue with onsubmit of new field
+  - Need ot identify how to seperate it out from the normal on submit
+  - give the following error:
+  - ![error image](./reference/errors/search_drop_down_error_112722.png)
 
 _11-27-22 [KP]_
 - Updated calculation for TOB
