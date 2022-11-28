@@ -19,5 +19,9 @@
   {% if nameResults %}
     {% block nameResultsContent %}{% endblock %}
   {% endif %}
+
+  {% if noResults %}
+    {% block noResultsContent %}{% endblock %}
+  {% endif %}
   
 {% endblock %}

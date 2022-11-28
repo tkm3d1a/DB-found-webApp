@@ -4,7 +4,7 @@ import logging
 import pymysql
 from flask import render_template, request, flash, redirect, url_for, session
 from app import app, db
-from app.forms import LoginForm, SearchForm
+from app.forms import LoginForm, SearchForm, SaveForm, SelectForm
 from app.orm import Analysis, People, Web_Users
 
 # Root user information from os environment
@@ -31,9 +31,12 @@ def home():
 @app.route('/search', methods=['GET','POST'])
 def search():
   search_form = SearchForm()
+  save_form = SaveForm()
+  select_form = SelectForm()
   results = []
   nameResults = []
   playerIDS = []
+  msg=''
   
   if search_form.validate_on_submit():
 
@@ -41,6 +44,11 @@ def search():
       nameFirstData = search_form.first_name.data + '%%'
       nameLastData = search_form.last_name.data + '%%'
       nameResults = People.query.filter(People.nameFirst.like(nameFirstData),People.nameLast.like(nameLastData)).all()
+    
+    if len(nameResults) < 1:
+      msg = 'No results found'
+      noResults = True
+      return render_template('resultsNone.html', title='Search Again', form=search_form, nameResults=nameResults, msg=msg, noResults=noResults)
         
     for row in nameResults:
       print(row)
@@ -57,10 +65,19 @@ def search():
       print(row)
     
     if(len(nameResults) == 1):
-      return render_template('resultsPlayerID.html', title='Results', form=search_form, results=results)
+      # return redirect(url_for('battingAnalysis',res=results))
+      return render_template('resultsPlayerID.html',
+                             title='Results', 
+                             form=search_form,
+                             savePlayer=save_form,
+                             results=results)
     
     if(len(nameResults) > 1):
-      return render_template('resultsPlayerName.html', title='Player List', form=search_form, nameResults=nameResults)
+      return render_template('resultsPlayerName.html', 
+                             title='Player List', 
+                             form=search_form,
+                             selectPlayer=select_form, 
+                             nameResults=nameResults)
     
   return render_template('search.html', title='Search', form=search_form)
 
@@ -151,7 +168,11 @@ def register():
     hashedPassword = h.hexdigest()
 
     if not userExists:
-      newUser = Web_Users(username=usernameEnt, email=emailEnt, password_pt=password, salt=userSalt, pw_hash=hashedPassword)
+      newUser = Web_Users(
+        username=usernameEnt, 
+        email=emailEnt, 
+        salt=userSalt, 
+        pw_hash=hashedPassword)
       db.session.add(newUser)
       db.session.commit()
       msg = 'User Successfully registered!'
@@ -171,3 +192,9 @@ def logout():
   session.pop('username', None)
   session['loggedin'] = False
   return redirect(url_for('sign_in'))
+
+# @app.route('/ba-analysis/<playerid>', methods=['GET','POST'])
+# def battingAnalysis():
+#   search_form = SearchForm()
+#   results = request.args['res']
+#   return render_template('resultsPlayerID.html', title='Results', form=search_form, results=results)

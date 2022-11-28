@@ -92,17 +92,16 @@ class Web_Users(db.Model):
 	webuser_ID = db.Column(db.Integer, primary_key=True) #Required
 	username = db.Column(db.String(255))
 	email = db.Column(db.String(255))
-	password_pt = db.Column(db.String(255))
+	# password_pt = db.Column(db.String(255))
 	salt = db.Column(db.String(4))
 	pw_hash = db.Column(db.String(255))
 
 	def __repr__(self):
-		return "<webUsers(uid='%s', username='%s', password='%s')>" % (self.webuser_ID, self.username, self.password_pt)
+		return "<webUsers(uid='%s', username='%s', email='%s')>" % (self.webuser_ID, self.username, self.email)
 
 	def checkInput(self):
    #TODO: need to build this for injection protection
 		pass
-
 
 class Saved_Searches(db.Model):
 	__tablename__ = "savedSearches" #Required

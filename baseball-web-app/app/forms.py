@@ -14,3 +14,17 @@ class SearchForm(FlaskForm):
     last_name = StringField('Last Name')
     # save_search = BooleanField('Save Search')
     submit = SubmitField('Search')
+
+class SaveForm(FlaskForm):
+    # player_id = StringField('Player ID')
+    first_name = StringField('First Name')
+    last_name = StringField('Last Name')
+    # save_search = BooleanField('Save Search')
+    submit = SubmitField('Search')
+
+class SelectForm(FlaskForm):
+    # player_id = StringField('Player ID')
+    first_name = StringField('First Name')
+    last_name = StringField('Last Name')
+    # save_search = BooleanField('Save Search')
+    submit = SubmitField('Search')
