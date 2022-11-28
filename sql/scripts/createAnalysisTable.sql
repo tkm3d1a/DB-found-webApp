@@ -153,8 +153,6 @@ FROM batting GROUP BY playerid,yearid,stint;
 -- Update TB field
 ------------------
 UPDATE analysis a SET TB = h + b2 + 2*b3 + 3*hr;
--- The formula according to the project description is:
--- UPDATE analysis a SET TB = H + (2 * B2) + (3 * B3) + (4 * HR);
 
 -------------------
 -- Update OBP Field
@@ -173,20 +171,21 @@ UPDATE analysis a SET OBP =
 -- Update SLG field
 -- the formula for slugging percentage is: (1B + 2Bx2 + 3Bx3 + HRx4)/AB.
 -- ref: https://www.mlb.com/glossary/standard-stats/slugging-percentage
+-- Simplified the numerator to TB [KP] 
 -------------------
-UPDATE analysis a SET SLG = (h + b2*2 + b3*3 + hr*4) / AB;
+UPDATE analysis a SET SLG = TB / AB;
 
 -------------------
 -- Update birth values Field(s)
 -------------------
 UPDATE analysis a SET a.birthYear = 
-  (SELECT p.birthYear FROM people p where a.playerID = p.playerID);
+  (SELECT p.birthYear FROM people p WHERE a.playerID = p.playerID);
 
 UPDATE analysis a SET a.birthMonth = 
-  (SELECT p.birthMonth FROM people p where a.playerID = p.playerID);
+  (SELECT p.birthMonth FROM people p WHERE a.playerID = p.playerID);
 
 UPDATE analysis a SET a.birthDay = 
-  (SELECT p.birthDay FROM people p where a.playerID = p.playerID);
+  (SELECT p.birthDay FROM people p WHERE a.playerID = p.playerID);
 
 ----------------------
 -- Update W Field
@@ -201,12 +200,12 @@ UPDATE analysis a SET SSB = (SH + SF + SB) * 0.52;
 ----------------------
 -- Update TOB Field
 ----------------------
-UPDATE analysis a SET TOB = H + W + HBP - CS + GIDP;
+UPDATE analysis a SET TOB = (H + W + HBP) - (CS + GIDP);
 
 ----------------------
 -- Update OUTS Field
 ----------------------
-UPDATE analysis a SET OUTS = AB + SF + SH + CS + GIDP - H;
+UPDATE analysis a SET OUTS = (AB + SF + SH + CS + GIDP) - H;
 
 ----------------------
 -- Update PA Field
@@ -224,7 +223,7 @@ UPDATE analysis a SET BA = TB + W + SSB;
 UPDATE analysis a SET RC = 
   CASE
     WHEN PA = 0 THEN 0
-    ELSE TOB * BA / PA
+    ELSE (TOB * BA) / PA
    END;
 
 --------------------

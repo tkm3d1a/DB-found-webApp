@@ -132,9 +132,14 @@ _11-27-22 [TK]_
   - Probably a simple redirect, using variable to a playerID
 - General cleanup needs to be completed of unused variables, imports, etc
 
-_11-25-22 [KP]_
+_11-27-22 [KP]_
+- Updated calculation for TOB
+- Verified correct calculations by row
+- Working on results table
+  
+_11-26-22 [KP]_
 - Updated SQL statements for RC and PARC27 to account for division of 0 possibilities
-- Added python script for querying the analysis table and printing in table format
+- Added python script for querying the analysis table and printing results table
   - Currently takes in playerID, will need to adjust for name search
 
 _11-26-22 [TK]_
