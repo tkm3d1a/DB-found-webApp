@@ -1,22 +1,20 @@
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title> Index </title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body></br></br></br></br></br>
+{% extends "base.html" %}
+
+{% block content %}
+</br></br></br></br></br>
 <div align="center">
   <div align="center" class="border">
     <div class="header">
-      <h1 class="word">Index</h1>
+      <h1 class="word">{{ session.id }}</h1>
     </div></br></br></br>
     <h1 class="bottom">
-      Hi {{session.username}}!!</br></br> Welcome to the index page...
+      Hi {{ session.username }}!!</br></br> 
+      Welcome to the index page...
     </h1></br></br></br>
     <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+    <a href="{{ url_for('search') }}" class="btn">Search a Player</a>
   </div>
 </div>
-</body>
-</html>
+{% endblock %}
 
 <!-- https://www.geeksforgeeks.org/login-and-registration-project-using-flask-and-mysql/ -->

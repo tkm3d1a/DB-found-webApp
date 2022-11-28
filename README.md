@@ -83,6 +83,7 @@ pip install python-dotenv==0.21.0
 pip install flask-wtf==1.0.1
 pip install sqlalchemy==1.4.43
 pip install flask-sqlalchemy==3.0.2
+pip install flask-session==0.4.0
 ```
 
 If running vscode as editor, add the following environment settings...
@@ -97,7 +98,7 @@ _.vscode/settings.json_
 }
 ```
 
-Database prep required
+Database prep required**NEEDS UPDATE**
 - Load the `2019lahman_base_dump.sql` file contained in `./sql/dbDumps`
   - MaraiDB does not contain default collate set, so all COLLATE lines need to be modified to: `COLLATE utf8mb4_general_ci`
 - Load all scripts in `./sql/scripts` folder
@@ -107,6 +108,29 @@ source *script file paths go here*
 ```
 
 # Worklog
+
+_11-27-22 [TK]_
+- Updated PA calculation to use proper walks (BB instead of W)
+- Added playerName field
+  - This might be not needed, pending how to store/save names
+  - Might be best to keep first and last seperate in table or just use first and last searching of People to return a playerid to use in the analysis table
+- Completed Sign in form
+  - Storing of hashed passwords
+  - webusers table complete as well
+  - Might need to error check ORM after removing plaintext password field
+- Hooked up all pages correctly
+  - Signin, home, search, register, logout
+  - All connected, using title bar nav
+  - CSS still needs work between them all
+- Polished DB scripts
+  - Still need to combine to a single sql script file to load database, and all required tables
+  - Still need saved searches table completed and a way for users to save
+    - Generic form template started for this
+- Selecting single player from multiple when returned needs to be completed
+  - Search field will no longer return 500, but not protected against sql injection attacks
+  - Need to add link to go to aplayers page once created
+  - Probably a simple redirect, using variable to a playerID
+- General cleanup needs to be completed of unused variables, imports, etc
 
 _11-27-22 [KP]_
 - Updated calculation for TOB

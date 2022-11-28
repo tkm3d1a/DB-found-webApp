@@ -37,6 +37,12 @@ class Analysis(db.Model):
 	RC27 = db.Column(db.Numeric)
 	PARC = db.Column(db.Numeric)
 	PARC27 = db.Column(db.Numeric)
+	W = db.Column(db.Numeric)
+	SSB = db.Column(db.Numeric)
+	TOB = db.Column(db.Numeric)
+	OUTS = db.Column(db.Integer)
+	PA = db.Column(db.Numeric)
+	BA = db.Column(db.Numeric)
 
 	def __repr__(self):
 		return "<analysis(player='%s',yearid=%s, games=%s, RC27='%s')>" % (self.playerid, self.yearID, self.G, self.RC27)
@@ -84,10 +90,18 @@ class Web_Users(db.Model):
 	__tablename__ = "webUsers" #Required
 
 	webuser_ID = db.Column(db.Integer, primary_key=True) #Required
+	username = db.Column(db.String(255))
+	email = db.Column(db.String(255))
+	# password_pt = db.Column(db.String(255))
+	salt = db.Column(db.String(4))
+	pw_hash = db.Column(db.String(255))
 
 	def __repr__(self):
-		return "<webUsers(uid='%s')>" % (self.webuser_ID)
+		return "<webUsers(uid='%s', username='%s', email='%s')>" % (self.webuser_ID, self.username, self.email)
 
+	def checkInput(self):
+   #TODO: need to build this for injection protection
+		pass
 
 class Saved_Searches(db.Model):
 	__tablename__ = "savedSearches" #Required
@@ -96,3 +110,14 @@ class Saved_Searches(db.Model):
 
 	def __repr__(self):
 		return "<savedSearches(searchID='%s')>" % (self.search_ID)
+
+class People(db.Model):
+  __tablename__ = "people"
+  
+  playerID = db.Column(db.String(9), primary_key=True) #required
+  nameFirst = db.Column(db.String(255))
+  nameLast = db.Column(db.String(255))
+  
+  def __repr__(self):
+    return "<people(playerID='%s', nameFirst='%s', nameLast='%s')>" % (self.playerID, self.nameFirst, self.nameLast)
+  

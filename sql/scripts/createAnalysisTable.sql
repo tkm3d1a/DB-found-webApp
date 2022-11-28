@@ -10,13 +10,14 @@ SET character_set_client = utf8mb4;
 CREATE TABLE `analysis` (
   `analysis_ID` int(11) NOT NULL AUTO_INCREMENT,
   `playerID` varchar(9) DEFAULT NULL,
+  `playerName` varchar(255) DEFAULT NULL,
   `yearID` smallint(6) NOT NULL,
   `birthYear` int(11) DEFAULT NULL,
   `birthMonth` int(11) DEFAULT NULL,
   `birthDay` int(11) DEFAULT NULL,
   `ageForYear` smallint(3) DEFAULT NULL,
   `stint` smallint(2) NOT NULL,
-  `teamID` char(3) DEFAULT NULL,
+  `team` char(3) DEFAULT NULL,
   `lgid` char(2) DEFAULT NULL,
   `G` smallint(6) DEFAULT NULL,
   `AB` smallint(6) DEFAULT NULL,
@@ -77,7 +78,7 @@ INSERT INTO analysis(
   playerid,
   yearid,
   stint,
-  teamID,
+  team,
   lgid,
   g,
   ab,
@@ -209,7 +210,7 @@ UPDATE analysis a SET OUTS = (AB + SF + SH + CS + GIDP) - H;
 ----------------------
 -- Update PA Field
 ----------------------
-UPDATE analysis a SET PA = AB + W + HBP + SF + SH;
+UPDATE analysis a SET PA = AB + BB + HBP + SF + SH;
 
 ----------------------
 -- Update BA Field
@@ -234,7 +235,7 @@ UPDATE analysis a1 SET a1.PARC =
   WHERE a2.playerID = a1.playerID
     AND a2.yearID = a1.yearID
     AND a2.stint = a1.stint
-    AND a2.teamID = t.teamID
+    AND a2.team = t.teamID
     AND a2.yearID = t.yearID
    );
 
@@ -251,10 +252,10 @@ UPDATE analysis a SET RC27 = RC / 27;
 -------------------------------
 -- Update Name Field
 -------------------------------
-UPDATE analysis a SET Name =
+UPDATE analysis a SET playerName =
     (SELECT CONCAT(nameFirst, ' ', nameLast) 
     FROM people p
     WHERE p.playerID = a.playerID
     ); 
 
-select playerid, yearid, rc, parc, rc27, parc27 from analysis where playerid='ruthba01';
+-- select playerid, playerName, yearid, rc, parc, rc27, parc27 from analysis where playerid='ruthba01';

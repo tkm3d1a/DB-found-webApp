@@ -11,16 +11,21 @@
 <html>
     <head>
       {% if title %}
-      <title>{{ title }} - Microblog</title>
+      <title>{{ title }}</title>
       {% else %}
       <title>Welcome to Microblog</title>
       {% endif %}
+
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='loginstyle.css') }}">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+      <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     </head>
     <body>
         <div>Microblog: 
-          <a href="/">Home</a>
-          <a href="/login">Login</a>
-          <a href="/search">Search</a>
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('sign_in')}}">Sign In</a>
+          <a href="{{ url_for('search') }}">Search</a>
         </div> <!-- TODO: Turn into list navigation-->
         <hr>
         {% block content %}{% endblock %}

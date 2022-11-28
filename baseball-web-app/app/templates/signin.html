@@ -1,28 +1,30 @@
-<html>
+{% extends "base.html" %}
 
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='loginstyle.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-    <title>Sign in</title>
-</head>
-
-<body>
-    <div class="main">
-        <p class="sign" align="center">Sign In</p>
-        <form class="form1" action="{{ url_for('login') }}" method="post">
-            <div align="center" style="color:red">{{ msg }}</div>
-            <input id="username" name="username" class="un " type="text" align="center" placeholder="Username"/>
-            <input id="password" name="password" class="pass" type="password" align="center" placeholder="Password"/>
-            <input class="btn" type="submit" align="center" value="Sign In"/>
-            <p class="newuser" align="center"><a href="#">Forgot Password?</a></p>
-            <p class="newuser" align="center"><a href="{{url_for('register')}}">Sign up here</a></p>
-        </form>
-    </div>
-</body>
-
-</html>
-
+{% block content %}
+<div class="main">
+    <p class="sign" align="center">Sign In</p>
+    <form class="form1" action="{{ url_for('sign_in') }}" method="post">
+        <div align="center" style="color:red">{{ msg }}</div>
+        <input id="username" 
+            name="username" 
+            class="un " 
+            type="text" 
+            align="center" 
+            placeholder="Username"/>
+        <input id="password" 
+            name="password" 
+            class="pass" 
+            type="password" 
+            align="center" 
+            placeholder="Password"/>
+        <input class="btn" 
+            type="submit" 
+            align="center" 
+            value="Sign In"/>
+        <p class="newuser" align="center"><a href="#">Forgot Password?</a></p>
+        <p class="newuser" align="center"><a href="{{url_for('register')}}">Sign up here</a></p>
+    </form>
+</div>
+{% endblock %}
 
 <!--https://speckyboy.com/login-pages-html5-css/ -->
