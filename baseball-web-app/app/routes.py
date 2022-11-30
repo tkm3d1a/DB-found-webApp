@@ -14,9 +14,9 @@ db_name = os.environ.get('DB_NAME')
 
 @app.route('/')
 def home():
-  # print(session)
+  print(session)
   if (session.get('loggedin', False)):
-    return render_template('index.html', title='Home', session=session)
+    return render_template('welcome.html', title='Home', session=session)
   else:
     return render_template('index.html', title='Home - Logged in', session=session)
 
@@ -60,6 +60,10 @@ def search():
   return render_template('search.html', 
                          title='Search', 
                          form=search_form)
+
+@app.route('/allplayers', methods=['GET','POST'])
+def allPlayers():
+    return render_template('resultsAllPlayers.html')
 
 @app.route('/search/multi_res', methods=['GET','POST'])
 def multi_results():
