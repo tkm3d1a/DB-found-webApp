@@ -3,7 +3,6 @@
 
 <style>
   th,td,tr {
-    padding: 10px;
     text-align: center;
   }
 </style>
@@ -15,7 +14,6 @@
       {% else %}
       <title>Welcome to Baseball DB Application.</title>
       {% endif %}
-
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     </head>
@@ -31,7 +29,7 @@
                 <a href="{{ url_for('sign_in')}}">Sign In</a>
                 {% endif %}
             </div>
-        </div> <!-- TODO: Turn into list navigation-->
+        </div>
         <div class="blockContent">
             {% block content %}{% endblock %}
         </div>
