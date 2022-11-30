@@ -10,8 +10,8 @@ class LoginForm(FlaskForm):
 
 class SearchForm(FlaskForm):
     # player_id = StringField('Player ID')
-    first_name = StringField('First Name')
-    last_name = StringField('Last Name')
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     # save_search = BooleanField('Save Search')
     submit = SubmitField('Search')
 
