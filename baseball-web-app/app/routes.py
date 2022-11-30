@@ -1,7 +1,5 @@
 import os
 import hashlib
-import logging
-import pymysql
 from flask import render_template, request, flash, redirect, url_for, session
 from app import app, db
 from app.forms import LoginForm, SearchForm, SaveForm, SelectForm
@@ -13,10 +11,6 @@ db_password = os.environ.get('DB_PW')
 db_host = os.environ.get('DB_HOST')
 db_port = os.environ.get('DB_PORT')
 db_name = os.environ.get('DB_NAME')
-
-# Base Session details?
-# sessionCurrent = session
-# session['loggedin'] = False
 
 @app.route('/')
 def home():
@@ -38,7 +32,7 @@ def search():
   playerIDS = []
   msg=''
   
-  if search_form.validate_on_submit():
+  if request.method == 'POST':
 
     if (len(search_form.first_name.data) > 1 and len(search_form.last_name.data) >= 1):
       nameFirstData = search_form.first_name.data + '%%'
@@ -48,10 +42,12 @@ def search():
     if len(nameResults) < 1:
       msg = 'No results found'
       noResults = True
-      return render_template('resultsNone.html', title='Search Again', form=search_form, nameResults=nameResults, msg=msg, noResults=noResults)
-        
-    # selectedID = playerIDS[0]
-    # print(selectedID)
+      return render_template('resultsNone.html', 
+                             title='Search Again', 
+                             form=search_form, 
+                             nameResults=nameResults, 
+                             msg=msg, 
+                             noResults=noResults)
     
     if(len(nameResults) == 1):
       # return redirect(url_for('battingAnalysis',res=results))
@@ -69,57 +65,61 @@ def search():
                              results=results)
     
     if(len(nameResults) > 1):
-      # i = 0
-      for row in nameResults:
+      session['nameRes'] = nameResults
+      return redirect(url_for('multi_results'))
+    
+  return render_template('search.html', 
+                         title='Search', 
+                         form=search_form)
+
+@app.route('/search/multi_res', methods=['GET','POST'])
+def multi_results():
+  nameResults = session.get('nameRes')
+  session.pop('nameRes', None)
+  
+  select_form = SelectForm()
+  playerIDS = []
+  
+  if request.method == 'POST':
+    print("Im in post for multi_res")
+    # FIXME:Placeholder
+    # Currently just loops back to search page
+    # use session to pass whatever the selection is?
+    # How do I get that value?
+    # need another route to handle display of final results page
+    session['nameRes'] = nameResults
+    return redirect(url_for('search'))
+  
+  for row in nameResults:
         print(row)
         playerIDS.append(row.playerID)
-        # select_form.player_id.choices.append((row.playerid,i))
-        # i += 1
-        
-      select_form.player_id.choices = [(g.playerID, " ".join([g.nameFirst, g.nameLast])) for g in nameResults]
-      
-      return render_template('resultsPlayerName.html', 
+  
+  select_form.player_id.choices = [(g.playerID, " ".join([g.nameFirst, g.nameLast])) for g in nameResults]
+  
+  return render_template('resultsPlayerName.html', 
                              title='Player List', 
-                             form=search_form,
                              selectPlayer=select_form, 
                              nameResults=nameResults)
-    
-  return render_template('search.html', title='Search', form=search_form)
 
-
-@app.route('/signin', methods =['GET', 'POST'])
+@app.route('/sign_in', methods =['GET', 'POST'])
 def sign_in():
   msg = ''
   if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
       username = request.form['username']
       password = request.form['password']
-      # con = pymysql.connect(
-      #   host=db_host, 
-      #   user=db_user, 
-      #   password=db_password, 
-      #   db=db_name, 
-      #   cursorclass=pymysql.cursors.DictCursor)
-      # cursor = con.cursor()
-      
-      # cursor.execute(
-      #   'SELECT * FROM webusers WHERE username = %s AND password_pt = %s', 
-      #   (username, 
-      #    password))
-      # account = cursor.fetchone()
       
       accountORM = Web_Users.query.filter_by(username=username).first_or_404()
-      print(accountORM.pw_hash)
-      print(accountORM.salt)
+      # print(accountORM.pw_hash)
+      # print(accountORM.salt)
       testPassword = password + accountORM.salt
       testPassword = str.encode(testPassword)
       testhash = hashlib.new('sha256')
       testhash.update(testPassword)
       testPassword = testhash.hexdigest()
-      print(testPassword)
-      
-      print(session)
-      print(username)
-      print(password)
+      # print(testPassword)
+      # print(session)
+      # print(username)
+      # print(password)
       if accountORM.pw_hash == testPassword:
         session['loggedin'] = True
         session['id'] = accountORM.webuser_ID

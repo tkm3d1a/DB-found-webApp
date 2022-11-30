@@ -1,12 +1,12 @@
-{% extends "search.html" %}
+{% extends "base.html" %}
 
-{% block nameResultsContent %}
+{% block content %}
 <center>
   <h1>Players Found</h1>
   <form action="" method="post" novalidate>
     {{ selectPlayer.csrf_token }}
     {{ selectPlayer.player_id }}
-    <input type="submit"/>
+    {{ selectPlayer.submit() }}
   </form>
   <table border="1">
     <tr>

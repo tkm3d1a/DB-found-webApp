@@ -162,6 +162,11 @@ _11-29-22 [TK]_
   - Added description
   - Added TOC
   - Marked off closed features
+- Fixed multiple search results issue
+  - now redirects to new page, dedicated to multiple search results
+  - workaround for multiple form submittals on one page
+  - allows for clean passing through the session variable
+  - not finalized (just loops back to main search window for now)
 
 _11-27-22 [TK]_
 - Updated PA calculation to use proper walks (BB instead of W)
