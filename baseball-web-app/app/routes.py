@@ -94,9 +94,13 @@ def sign_in():
       username = request.form['username']
       password = request.form['password']
       
-      accountORM = Web_Users.query.filter_by(username=username).first_or_404()
+      accountORM = Web_Users.query.filter_by(username=username).first()
       # print(accountORM.pw_hash)
       # print(accountORM.salt)
+      if accountORM is None:
+          msg = 'Incorrect username / password !'
+          return render_template('signin.html', title="Sign In", msg = msg)
+
       testPassword = password + accountORM.salt
       testPassword = str.encode(testPassword)
       testhash = hashlib.new('sha256')
@@ -116,9 +120,9 @@ def sign_in():
       else:
         session['loggedin'] = False
         msg = 'Incorrect username / password !'
-          
+
   print(session)
-  
+
   return render_template('signin.html', title="Sign In", msg = msg)
 
 @app.route('/register', methods =['GET', 'POST'])

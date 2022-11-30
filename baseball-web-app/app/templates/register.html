@@ -1,48 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-</br></br></br></br></br>
-<div align="center">
-    <div align="center" class="border">
-        <div class="header">
-            <h1 class="word">{{ title }}</h1>
-        </div>
-    </br></br></br>
-        <h2 class="word">
-            <form action="{{ url_for('register') }}" method="post">
-                <div class="msg">{{ msg }}</div>
+<div class="main">
+    <p class="sign" align="center">{{ title }}</p>
+    <form action="{{ url_for('register') }}" method="post">
+        <div align="center" style="color:red" class="msg">{{ msg }}</div>
                 <input 
                     id="username" 
                     name="username" 
                     type="text" 
                     placeholder="Enter Your Username" 
-                    class="textbox"/>
-            </br></br>
+                    class="loginDetails"
+                    required/>
                 <input 
                     id="password" 
                     name="password" 
                     type="password" 
                     placeholder="Enter Your Password" 
-                    class="textbox"/>
-            </br></br>
+                    class="loginDetails"
+                    required/>
                 <input 
                     id="email" 
                     name="email" 
-                    type="text" 
+                    type="email"
                     placeholder="Enter Your Email ID" 
-                    class="textbox"/>
-            </br></br>
+                    class="loginDetails"
+                    required/>
                 <input 
                     type="submit" 
-                    class="btn" 
+                    class="signInBtn"
                     value="Sign Up"></br>
             </form>
-        </h2>
-        <p class="bottom">
-            Already have an account? <a class="bottom" href="{{url_for('sign_in')}}"> Sign In here</a>
+        <p class="user" align="center">
+            Already have an account? <a class="bottom" href="{{url_for('sign_in')}}">Sign in here</a>
         </p>
     </div>
-</div>
+</p>
 {% endblock %}
 
 <!-- https://www.geeksforgeeks.org/login-and-registration-project-using-flask-and-mysql/ -->

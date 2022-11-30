@@ -7,22 +7,24 @@
         <div align="center" style="color:red">{{ msg }}</div>
         <input id="username" 
             name="username" 
-            class="uname "
+            class="loginDetails "
             type="text" 
             align="center" 
-            placeholder="Username"/>
+            placeholder="Username"
+            required/>
         <input id="password" 
             name="password" 
-            class="pass" 
+            class="loginDetails"
             type="password" 
             align="center" 
-            placeholder="Password"/>
+            placeholder="Password"
+            required/>
         <input class="signInBtn"
             type="submit" 
             align="center" 
             value="Sign In"/>
-        <p class="newuser" align="center"><a href="#">Forgot Password?</a></p>
-        <p class="newuser" align="center"><a href="{{url_for('register')}}">Sign up here</a></p>
+        <p class="user" align="center"><a href="#">Forgot Password?</a></p>
+        <p class="user" align="center"><a href="{{url_for('register')}}">Sign up here</a></p>
     </form>
 </div>
 {% endblock %}
