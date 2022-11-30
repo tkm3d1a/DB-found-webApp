@@ -1,7 +1,5 @@
 import os
 import hashlib
-import logging
-import pymysql
 from flask import render_template, request, flash, redirect, url_for, session
 from app import app, db
 from app.forms import LoginForm, SearchForm, SaveForm, SelectForm
@@ -14,15 +12,9 @@ db_host = os.environ.get('DB_HOST')
 db_port = os.environ.get('DB_PORT')
 db_name = os.environ.get('DB_NAME')
 
-# Base Session details?
-# sessionCurrent = session
-# session['loggedin'] = False
-
 @app.route('/')
 def home():
-  
-  print(session)
-  
+  # print(session)
   if (session.get('loggedin', False)):
     return render_template('index.html', title='Home', session=session)
   else:
@@ -31,90 +23,85 @@ def home():
 @app.route('/search', methods=['GET','POST'])
 def search():
   search_form = SearchForm()
-  save_form = SaveForm()
-  select_form = SelectForm()
-  results = []
   nameResults = []
-  playerIDS = []
   msg=''
   
-  if search_form.validate_on_submit():
-
+  if request.method == 'POST':
+    
+    # Only populate nameResults if data is in the fields
+    # This can likely be moved to the WTForms with validations
     if (len(search_form.first_name.data) > 1 and len(search_form.last_name.data) >= 1):
-      nameFirstData = search_form.first_name.data + '%%'
-      nameLastData = search_form.last_name.data + '%%'
+      nameFirstData = search_form.first_name.data + '%%' #this needs better input validation
+      nameLastData = search_form.last_name.data + '%%' #this needs better input validation
       nameResults = People.query.filter(People.nameFirst.like(nameFirstData),People.nameLast.like(nameLastData)).all()
     
+    # If no results are found aka nameResults is not populated at all
+    # Creates new page, leaves search form up and displays a message to the user
     if len(nameResults) < 1:
       msg = 'No results found'
       noResults = True
-      return render_template('resultsNone.html', title='Search Again', form=search_form, nameResults=nameResults, msg=msg, noResults=noResults)
-        
-    for row in nameResults:
-      print(row)
-      playerIDS.append(row.playerID)
-      
-    selectedID = playerIDS[0]
-    print(selectedID)
+      return render_template('resultsNone.html', 
+                             title='Search Again', 
+                             form=search_form, 
+                             nameResults=nameResults, 
+                             msg=msg, 
+                             noResults=noResults)
     
-    results = Analysis.query.filter_by(playerid=selectedID).all()
-    for row in results:
-      row.updateAge()
-      if row.RC27 is None:
-        row.setRC27()
-      print(row)
-    
+    # If there is only one result, it goes straight to batting results page
     if(len(nameResults) == 1):
-      # return redirect(url_for('battingAnalysis',res=results))
-      return render_template('resultsPlayerID.html',
-                             title='Results', 
-                             form=search_form,
-                             savePlayer=save_form,
-                             results=results)
+      return redirect(url_for('batting_analysis', playerid=nameResults[0].playerID))
     
+    # If more than 1 result in list, goes to display the list
+    # has a pick list for the user to select from
     if(len(nameResults) > 1):
-      return render_template('resultsPlayerName.html', 
+      session['nameRes'] = nameResults
+      return redirect(url_for('multi_results'))
+    
+  return render_template('search.html', 
+                         title='Search', 
+                         form=search_form)
+
+@app.route('/search/multi_res', methods=['GET','POST'])
+def multi_results():
+  nameResults = session.get('nameRes')
+  session.pop('nameRes', None)
+  
+  select_form = SelectForm()
+  playerIDS = []
+  
+  if request.method == 'POST':
+    return redirect(url_for('batting_analysis', playerid=select_form.player_id.data))
+  
+  for row in nameResults:
+        print(row)
+        playerIDS.append(row.playerID)
+  
+  select_form.player_id.choices = [(g.playerID, " ".join([g.nameFirst, g.nameLast])) for g in nameResults]
+  
+  return render_template('resultsPlayerName.html', 
                              title='Player List', 
-                             form=search_form,
                              selectPlayer=select_form, 
                              nameResults=nameResults)
-    
-  return render_template('search.html', title='Search', form=search_form)
 
-
-@app.route('/signin', methods =['GET', 'POST'])
+@app.route('/sign_in', methods =['GET', 'POST'])
 def sign_in():
   msg = ''
   if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
       username = request.form['username']
       password = request.form['password']
-      # con = pymysql.connect(
-      #   host=db_host, 
-      #   user=db_user, 
-      #   password=db_password, 
-      #   db=db_name, 
-      #   cursorclass=pymysql.cursors.DictCursor)
-      # cursor = con.cursor()
-      
-      # cursor.execute(
-      #   'SELECT * FROM webusers WHERE username = %s AND password_pt = %s', 
-      #   (username, 
-      #    password))
-      # account = cursor.fetchone()
       
       accountORM = Web_Users.query.filter_by(username=username).first_or_404()
-      print(accountORM.pw_hash)
-      print(accountORM.salt)
+      # print(accountORM.pw_hash)
+      # print(accountORM.salt)
       testPassword = password + accountORM.salt
       testPassword = str.encode(testPassword)
       testhash = hashlib.new('sha256')
       testhash.update(testPassword)
       testPassword = testhash.hexdigest()
-      print(testPassword)
-      
-      print(session)
-      print(username)
-      print(password)
+      # print(testPassword)
+      # print(session)
+      # print(username)
+      # print(password)
       if accountORM.pw_hash == testPassword:
         session['loggedin'] = True
         session['id'] = accountORM.webuser_ID
@@ -193,8 +180,16 @@ def logout():
   session['loggedin'] = False
   return redirect(url_for('sign_in'))
 
-# @app.route('/ba-analysis/<playerid>', methods=['GET','POST'])
-# def battingAnalysis():
-#   search_form = SearchForm()
-#   results = request.args['res']
-#   return render_template('resultsPlayerID.html', title='Results', form=search_form, results=results)
+@app.route('/ba-analysis/<playerid>', methods=['GET','POST'])
+def batting_analysis(playerid):
+  search_form = SearchForm()
+  results = Analysis.query.filter_by(playerid=playerid).all()
+  for row in results:
+        row.updateAge()
+        if row.RC27 is None:
+          row.setRC27()
+        print(row)
+  return render_template('resultsPlayerID.html', 
+                         title='Results', 
+                         form=search_form, 
+                         results=results)

@@ -1,36 +1,78 @@
 # DB-found-webApp
 
-## SQL Tasks
+This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlchmey framework with a MariaDB backend.  Currently, the MaraiDB server needs to be run locally and requires some setup on inital use(See [Environment Info](#environment-information) for details on the environment needed).  Once Setup, a user can search through the Lahman Baseball database to find information on players that have played in the major leagues, with data stopping at the 2019 season.  Currently, only Batting information is retrieved, so if the player has no batting information they will not be present in this database.
 
-- [ ] TODO: Create analysis table
+### TOC
+- [Using the site](#using-the-appsite)
+- [Tasks](#tasks)
+- [Environment Setup](#environment-setup)
+- [Worklog](#worklog)
+
+---
+
+# Using the app/site
+
+## Sign in
+## Searching
+### Single results
+### Multiple results
+## Saving a searched player
+## logging out
+
+---
+
+## Tasks
+
+### SQL Tasks
+
+- [x] TODO: Create analysis table
   - [x] Main Table creation
     - does not includie updating all custom calculations yet
-  - [ ] Park-adjusted runs created
+  - [x] Park-adjusted runs created
     - Calculation is done by pulling info from the Teams Table, BPF
       1. Create RC table
       2. Use home field as BPF value for a player
       3. Adjustment percent = BPF + 100 / 200
       4. PARC = RC/Adjustment percent
-  - [ ] Park-adjusted runs created per 27 outs
+  - [x] Park-adjusted runs created per 27 outs
     - same calculation as above, just using RC27 instead of RC
   - [ ] Any other benefical items to add?
-- [ ] TODO: Create a summary table?
+- [x] TODO: Create a summary table?
   - This could be a way to link player full names a little better?
   - Or an easier link from someone inserting a name to get to a playerid
-- [ ] TODO: Create trigger to update tables as needed?
+  - [TK] Summary table seemes not needed.  Can use different query and joins to get needed values no problem
+- [x] TODO: Create trigger to update tables as needed?
+  - Triggers not really needed, so can close this out
 
-## Python/Website tasks
+### Python/Website tasks
 
-- [ ] TODO: Setup user auth as module for flask env
-  - Pawan todo week of 11/7
+- [x] TODO: Setup user auth as module for flask env
+  - User Log in works
+  - Can register
+  - does not allow duplicate username or emails
+  - Passwords stored as hash (no Plain text password storage)
 - [ ] TODO: ORM for neede info to be dev
   - [x] ORM for Analysis created
-- [ ] TODO: Search field for searching by first and last name
-  - Can use wildcards to convert to search fields
+  - [x] ORM for People table for name look ups
+  - [x] ORM for webusers
+  - [ ] ORM for saved searches
+- [x] TODO: Search field for searching by first and last name
+  - First and last name are currently seperated
+  - If one result, returns that result directly
+  - If multiple results, returns the list, and then a drop down for user to select what player they wanted
+    - [x] TODO: Feature not fully working, errors when submitting selection
+      - Possible causes:
+        - hitting submit submits the form with no values
+        - this hits the check that the search fields have values to avoid returning entire DB when searching
+        - [x] TODO: Implment this feature fully
+        - Search now works from both multiple results page and if a single result is found
 - [ ] TODO: Way to save a users preferences/favorite players
-- [ ] TODO: Format output of table
+- [x] TODO: Format output of table
+  - Its formatted as a simple table, not pretty
+  - Need to see if any other columns need to be added
+    - Columns currently match the reference image
 
-## Misc Tasks
+### Misc Tasks
 
 - [ ] TODO: Add TOC here for readme
 - [ ] TODO: Make sure to update [Worklog](#worklog) with each PR or commit
@@ -49,10 +91,13 @@
 - [ ] TODO: Work on installation instructions for setting up DB
   - Tim to do (no date set)
 
+---
 
 # Installation information
 
 - [ ] TODO: Any dep installs needed to be detailed here
+
+---
 
 # Environment information
 
@@ -64,9 +109,11 @@ LahmanBaseballDB
 
 Python 
 - 3.8.10 (Running on WSL2 - Ubuntu)
-
+-
 Flask
 - 2.2.2
+
+---
 
 # Environment setup
 
@@ -107,7 +154,32 @@ Database prep required**NEEDS UPDATE**
 source *script file paths go here*
 ```
 
+---
+
 # Worklog
+
+_11-29-22 [TK]_
+- Updated readme
+  - Added description
+  - Added TOC
+  - Marked off closed features
+- Fixed multiple search results issue
+  - now redirects to new page, dedicated to multiple search results
+  - workaround for multiple form submittals on one page
+  - allows for clean passing through the session variable
+  - not finalized (just loops back to main search window for now)
+- Finalized search returns
+  - All final search results now work
+  - redirects to new page with playerid as part of the URL
+  - Have not checked safety of user inputting customer playerids causing possible issue
+    - potential point for sql injection attack needs to be caught
+  - All results appear to be working correctly
+- Last feature missing is saving user search
+  - This should be doable with a post request from the results page
+  - Shouldnt change page output, just return the same page
+  - Should not save the same results multiple times
+  - Should save with the users logged in id to a table in the database
+  - needs to be implemented
 
 _11-27-22 [TK]_
 - Updated PA calculation to use proper walks (BB instead of W)
@@ -131,6 +203,11 @@ _11-27-22 [TK]_
   - Need to add link to go to aplayers page once created
   - Probably a simple redirect, using variable to a playerID
 - General cleanup needs to be completed of unused variables, imports, etc
+- Added Search drop down when more than one name is returned
+  - Issue with onsubmit of new field
+  - Need ot identify how to seperate it out from the normal on submit
+  - give the following error:
+  - ![error image](./reference/errors/search_drop_down_error_112722.png)
 
 _11-27-22 [KP]_
 - Updated calculation for TOB
