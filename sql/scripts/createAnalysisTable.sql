@@ -55,17 +55,6 @@ CREATE TABLE `analysis` (
   CONSTRAINT `analysis_peoplefk` FOREIGN KEY (`playerID`) REFERENCES `people` (`playerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Inserting base values into analysis set
--- These are just the values to use for starting, further calcs needed to populate all values in table
--- Does not set the following:
--- OBP,
--- SLG,
--- TB,
--- RC,
--- RC27,
--- PARC,
--- PARC27
-
 -- NEW VARIABLES - KP
 -- TOB (Time on Base) (Not required, but used to calculate RC)
 -- OUTS (Not required, but used to calculate PARC27)
@@ -179,13 +168,13 @@ UPDATE analysis a SET SLG = TB / AB;
 -- Update birth values Field(s)
 -------------------
 UPDATE analysis a SET a.birthYear = 
-  (SELECT p.birthYear FROM people p WHERE a.playerID = p.playerID);
+  (SELECT COALESCE(p.birthYear, 1832) FROM people p WHERE a.playerID = p.playerID);
 
 UPDATE analysis a SET a.birthMonth = 
-  (SELECT p.birthMonth FROM people p WHERE a.playerID = p.playerID);
+  (SELECT COALESCE(p.birthMonth,1) FROM people p WHERE a.playerID = p.playerID);
 
 UPDATE analysis a SET a.birthDay = 
-  (SELECT p.birthDay FROM people p WHERE a.playerID = p.playerID);
+  (SELECT COALESCE(p.birthDay,1) FROM people p WHERE a.playerID = p.playerID);
 
 ----------------------
 -- Update W Field

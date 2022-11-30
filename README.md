@@ -158,6 +158,23 @@ source *script file paths go here*
 
 # Worklog
 
+_11-30-22 [TK]_
+- Found an error when searching for some players
+  - birth month is NULL for some players
+  - verified in databse, seeing 281 players with null birth months, some even have null years as well
+  - ![image](/reference/errors/null_birth_year_month.png)
+  - Fixed by adding `COALESCE` statments to birthYear/Month/Day update values
+  ```SQL
+  UPDATE analysis a SET a.birthYear = 
+  (SELECT COALESCE(p.birthYear, 1832) FROM people p WHERE a.playerID = p.playerID);
+
+  UPDATE analysis a SET a.birthMonth = 
+    (SELECT COALESCE(p.birthMonth,1) FROM people p WHERE a.playerID = p.playerID);
+
+  UPDATE analysis a SET a.birthDay = 
+    (SELECT COALESCE(p.birthDay,1) FROM people p WHERE a.playerID = p.playerID);
+  ```
+
 _11-29-22 [TK]_
 - Updated readme
   - Added description
