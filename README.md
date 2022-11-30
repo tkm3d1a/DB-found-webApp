@@ -145,13 +145,16 @@ _.vscode/settings.json_
 }
 ```
 
-Database prep required**NEEDS UPDATE**
-- Load the `2019lahman_base_dump.sql` file contained in `./sql/dbDumps`
-  - MaraiDB does not contain default collate set, so all COLLATE lines need to be modified to: `COLLATE utf8mb4_general_ci`
-- Load all scripts in `./sql/scripts` folder
+Database prep required
+- All steps can be done from a fresh database install or be used to overwrite a previously modifed table
+- Database is created as `webapp_baseball` once script is completed
+  - The custom script is a combination of `2019lahman_base_dump.sql` and other customer scripts for creating tables and users for web application MVP
+- script it located in `<parentDir>/sql/scripts/init_webapp_baseball.sql`
+- script load time varies, around a minute to clean and then load and create all nessecary tables
   
+Sql command to run script inside MariaDB *must be run as root user of DB*
 ```sql
-source *script file paths go here*
+source ./sql/scripts/init_webapp_baseball.sql
 ```
 
 ---
@@ -174,6 +177,12 @@ _11-30-22 [TK]_
   UPDATE analysis a SET a.birthDay = 
     (SELECT COALESCE(p.birthDay,1) FROM people p WHERE a.playerID = p.playerID);
   ```
+- Combined Scripts into single `init_webapp_baseball.sql` file
+  - Run this once and the DB gets set up for use
+  - No database users are added with this yet
+  - no saved searches table is generated yet (feature not available)
+- Need to update instruction above for all updates so far
+  - **NOT PRIORITY**
 
 _11-29-22 [TK]_
 - Updated readme
