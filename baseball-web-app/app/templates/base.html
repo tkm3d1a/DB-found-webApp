@@ -13,21 +13,28 @@
       {% if title %}
       <title>{{ title }}</title>
       {% else %}
-      <title>Welcome to Microblog</title>
+      <title>Welcome to Baseball DB Application.</title>
       {% endif %}
 
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='loginstyle.css') }}">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
       <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     </head>
     <body>
-        <div>Microblog: 
-          <a href="{{ url_for('home') }}">Home</a>
-          <a href="{{ url_for('sign_in')}}">Sign In</a>
-          <a href="{{ url_for('search') }}">Search</a>
+        <div class = "navbar">
+          <a href="{{ url_for('home') }}">Baseball Database</a>
+            <div class="navbarMenus">
+                <a href="{{ url_for('home') }}">Home</a>
+                {% if session.loggedin %}
+                <a href="{{ url_for('search') }}">Search</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                <a href="{{ url_for('sign_in')}}">Sign In</a>
+                {% endif %}
+            </div>
         </div> <!-- TODO: Turn into list navigation-->
-        <hr>
-        {% block content %}{% endblock %}
+        <div class="blockContent">
+            {% block content %}{% endblock %}
+        </div>
     </body>
 </html>
