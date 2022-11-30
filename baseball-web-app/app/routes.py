@@ -61,9 +61,9 @@ def search():
                          title='Search', 
                          form=search_form)
 
-@app.route('/allplayers', methods=['GET','POST'])
-def allPlayers():
-    return render_template('resultsAllPlayers.html')
+@app.route('/favplayers', methods=['GET','POST'])
+def favPlayers():
+    return render_template('resultsFavPlayers.html')
 
 @app.route('/search/multi_res', methods=['GET','POST'])
 def multi_results():
