@@ -14,9 +14,7 @@ db_name = os.environ.get('DB_NAME')
 
 @app.route('/')
 def home():
-  
-  print(session)
-  
+  # print(session)
   if (session.get('loggedin', False)):
     return render_template('index.html', title='Home', session=session)
   else:
@@ -25,20 +23,20 @@ def home():
 @app.route('/search', methods=['GET','POST'])
 def search():
   search_form = SearchForm()
-  save_form = SaveForm()
-  select_form = SelectForm()
-  results = []
   nameResults = []
-  playerIDS = []
   msg=''
   
   if request.method == 'POST':
-
+    
+    # Only populate nameResults if data is in the fields
+    # This can likely be moved to the WTForms with validations
     if (len(search_form.first_name.data) > 1 and len(search_form.last_name.data) >= 1):
-      nameFirstData = search_form.first_name.data + '%%'
-      nameLastData = search_form.last_name.data + '%%'
+      nameFirstData = search_form.first_name.data + '%%' #this needs better input validation
+      nameLastData = search_form.last_name.data + '%%' #this needs better input validation
       nameResults = People.query.filter(People.nameFirst.like(nameFirstData),People.nameLast.like(nameLastData)).all()
     
+    # If no results are found aka nameResults is not populated at all
+    # Creates new page, leaves search form up and displays a message to the user
     if len(nameResults) < 1:
       msg = 'No results found'
       noResults = True
@@ -49,21 +47,12 @@ def search():
                              msg=msg, 
                              noResults=noResults)
     
+    # If there is only one result, it goes straight to batting results page
     if(len(nameResults) == 1):
-      # return redirect(url_for('battingAnalysis',res=results))
-      results = Analysis.query.filter_by(playerid=nameResults[0].playerID).all()
-      for row in results:
-        row.updateAge()
-        if row.RC27 is None:
-          row.setRC27()
-        print(row)
-        
-      return render_template('resultsPlayerID.html',
-                             title='Results', 
-                             form=search_form,
-                             savePlayer=save_form,
-                             results=results)
+      return redirect(url_for('batting_analysis', playerid=nameResults[0].playerID))
     
+    # If more than 1 result in list, goes to display the list
+    # has a pick list for the user to select from
     if(len(nameResults) > 1):
       session['nameRes'] = nameResults
       return redirect(url_for('multi_results'))
@@ -81,14 +70,7 @@ def multi_results():
   playerIDS = []
   
   if request.method == 'POST':
-    print("Im in post for multi_res")
-    # FIXME:Placeholder
-    # Currently just loops back to search page
-    # use session to pass whatever the selection is?
-    # How do I get that value?
-    # need another route to handle display of final results page
-    session['nameRes'] = nameResults
-    return redirect(url_for('search'))
+    return redirect(url_for('batting_analysis', playerid=select_form.player_id.data))
   
   for row in nameResults:
         print(row)
@@ -198,8 +180,16 @@ def logout():
   session['loggedin'] = False
   return redirect(url_for('sign_in'))
 
-# @app.route('/ba-analysis/<playerid>', methods=['GET','POST'])
-# def battingAnalysis():
-#   search_form = SearchForm()
-#   results = request.args['res']
-#   return render_template('resultsPlayerID.html', title='Results', form=search_form, results=results)
+@app.route('/ba-analysis/<playerid>', methods=['GET','POST'])
+def batting_analysis(playerid):
+  search_form = SearchForm()
+  results = Analysis.query.filter_by(playerid=playerid).all()
+  for row in results:
+        row.updateAge()
+        if row.RC27 is None:
+          row.setRC27()
+        print(row)
+  return render_template('resultsPlayerID.html', 
+                         title='Results', 
+                         form=search_form, 
+                         results=results)

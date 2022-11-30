@@ -34,7 +34,7 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
       2. Use home field as BPF value for a player
       3. Adjustment percent = BPF + 100 / 200
       4. PARC = RC/Adjustment percent
-  - [ ] Park-adjusted runs created per 27 outs
+  - [x] Park-adjusted runs created per 27 outs
     - same calculation as above, just using RC27 instead of RC
   - [ ] Any other benefical items to add?
 - [x] TODO: Create a summary table?
@@ -60,11 +60,12 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
   - First and last name are currently seperated
   - If one result, returns that result directly
   - If multiple results, returns the list, and then a drop down for user to select what player they wanted
-    - [ ] TODO: Feature not fully working, errors when submitting selection
+    - [x] TODO: Feature not fully working, errors when submitting selection
       - Possible causes:
         - hitting submit submits the form with no values
         - this hits the check that the search fields have values to avoid returning entire DB when searching
-        - [ ] TODO: Implment this feature fully
+        - [x] TODO: Implment this feature fully
+        - Search now works from both multiple results page and if a single result is found
 - [ ] TODO: Way to save a users preferences/favorite players
 - [x] TODO: Format output of table
   - Its formatted as a simple table, not pretty
@@ -167,6 +168,18 @@ _11-29-22 [TK]_
   - workaround for multiple form submittals on one page
   - allows for clean passing through the session variable
   - not finalized (just loops back to main search window for now)
+- Finalized search returns
+  - All final search results now work
+  - redirects to new page with playerid as part of the URL
+  - Have not checked safety of user inputting customer playerids causing possible issue
+    - potential point for sql injection attack needs to be caught
+  - All results appear to be working correctly
+- Last feature missing is saving user search
+  - This should be doable with a post request from the results page
+  - Shouldnt change page output, just return the same page
+  - Should not save the same results multiple times
+  - Should save with the users logged in id to a table in the database
+  - needs to be implemented
 
 _11-27-22 [TK]_
 - Updated PA calculation to use proper walks (BB instead of W)
