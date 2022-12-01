@@ -6,7 +6,7 @@
 CREATE USER web@localhost IDENTIFIED BY 'dbrules';
 
 -- Adding for dev on TK desktop
-CREATE USER webwsl@172.21.7.167 IDENTIFIED BY 'dbrules';
+CREATE USER webwsl@172.23.167.241 IDENTIFIED BY 'dbrules';
 
 
 GRANT SELECT, INSERT, UPDATE
@@ -14,6 +14,6 @@ ON *.* TO web@localhost;
 
 -- Adding for dev on TK desktop
 GRANT SELECT, INSERT, UPDATE
-ON *.* TO webwsl@172.21.7.167;
+ON *.* TO webwsl@172.23.167.241;
 
 FLUSH privileges;

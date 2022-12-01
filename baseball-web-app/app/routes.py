@@ -14,7 +14,7 @@ db_name = os.environ.get('DB_NAME')
 
 @app.route('/')
 def home():
-  print(session)
+  # print(session)
   if (session.get('loggedin', False)):
     return render_template('welcome.html', title='Home', session=session)
   else:
@@ -92,7 +92,7 @@ def multi_results():
     return redirect(url_for('batting_analysis', playerid=select_form.player_id.data))
   
   for row in nameResults:
-        print(row)
+        # print(row)
         playerIDS.append(row.playerID)
   
   select_form.player_id.choices = [(g.playerID, " ".join([g.nameFirst, g.nameLast])) for g in nameResults]
@@ -130,13 +130,13 @@ def sign_in():
         session['id'] = accountORM.webuser_ID
         session['username'] = accountORM.username
         msg = 'Logged in successfully !'
-        print(session)
+        # print(session)
         return render_template('welcome.html', msg=msg, session=session)
       else:
         session['loggedin'] = False
         msg = 'Incorrect username / password !'
 
-  print(session)
+  # print(session)
 
   return render_template('signin.html', title="Sign In", msg = msg)
 
@@ -157,7 +157,7 @@ def register():
     
     users = Web_Users.query.all()
     for row in users:
-      print(row)
+      # print(row)
       if row.email == emailEnt:
         userEmailExists = True
         break
@@ -187,15 +187,15 @@ def register():
       db.session.commit()
       msg = 'User Successfully registered!'
     
-    testRes = Web_Users.query.all()
-    for row in testRes:
-      print(row)
+    # testRes = Web_Users.query.all()
+    # for row in testRes:
+    #   print(row)
 
   return render_template('register.html', title="Register", msg = msg)
 
 @app.route('/logout')
 def logout():
-  print(session)
+  # print(session)
   session.pop('id', None)
   session.pop('username', None)
   session['loggedin'] = False

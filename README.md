@@ -36,7 +36,7 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
 
 ## Searching TODO:
 - Describe searching functions
-  - needs to split  first/last
+  - needs to split first/last name to two fields
   - minimum characters for each field
 
 ### Single results TODO:
@@ -196,6 +196,10 @@ source ./sql/scripts/init_webapp_baseball.sql
 ---
 
 # Worklog
+_12-1-22 [TK]_
+- Completing final clean up of code/print statemnts for turnin
+- updating readme
+- Completing and adding sql dump file
 
 _11-30-22 [TK]_
 - Found an error when searching for some players

@@ -3,11 +3,6 @@
 -- If this is updated, must ensure ORM class is also updated
 ------------------------------------------------------------
 
--- FIXME: Not complete, maybe need to work on ER a bit more to flesh out
--- Will need to link user to a specific first name/last name wildcard search
--- OR
--- Fix a specific playerid to a webuserid
-
 DROP TABLE IF EXISTS `savedSearches`;
 SET character_set_client = utf8mb4;
 CREATE TABLE `savedSearches` (

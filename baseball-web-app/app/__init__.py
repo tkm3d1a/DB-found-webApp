@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 Session(app)
-for key in app.config:
-  print(key, ' : ', app.config[key])
+# for key in app.config:
+#   print(key, ' : ', app.config[key])
 
 from app import routes, forms, orm
