@@ -4,7 +4,6 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
 
 ### TOC
 - [Using the site](#using-the-appsite)
-- [Tasks](#tasks)
 - [Environment Setup](#environment-setup)
 - [Worklog](#worklog)
 
@@ -24,118 +23,75 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
       - This can normally be local host if MariaDB is running on the same machine as the webApp.
       - If the webapp is being run on WSL while MariaDB is on native windows, this will require extra configuration steps
 - All relevant scripts have been combined into a single file
-- Once TODO:
+  - Two options for loading from here:
+    - DB dump located in `/sql/dbDumps/530_webapp_dump_12-1-22.sql`
+      - This will create a database called `webapp_baseball` for use in the web application
+      - Will also have test login's enabled, with saved searches already populate
+      - Login information:
+        - Username: `test_login`
+        - password: `nohash`
+        - **OR**
+        - Username: `timtest`
+        - Password `tim`
+    - Init script located in `/sql/scripts/init_webapp_baseball.sql`
+      - this will be a fresh database install with only one login and no saved searches
+      - Login Information:
+        - Username: `test_login`
+        - password: `nohash`
+- Leave MariaDB running for the webapplication to access
 
-## Homepage TODO:
-- Whats on homepage
+## Homepage
+- After configuring the virtual environment as shown in [Environment setup](#environment-setup) navigate to `/baseball-web-app`
+- From the shell, run `flask run` to initalize the devolpment environment
+- Navigate to `127.0.0.1:5000` from a web browser to be presented with the homepage
+- From the home page, a user must log in before any player searches can be done
+- All navigation is done through a top navbar, that changes based on logged in status of the session
 
-## Sign in TODO:
-- Sign in information:
-  - Username: `test_login`
-  - Password: `nohash`
+## Sign in
+- Sign in information is located above, and is based on which method was used to init the database
+- New users can also be registered from the `register` link at the bottom of the sign in form
+  - New users require a unique username and email
+  - Form validation is used to ensure fields are populated
+- Once signed in, the user is presented with a welcomepage where the can either view saved players or start a new search
 
-## Searching TODO:
-- Describe searching functions
-  - needs to split first/last name to two fields
-  - minimum characters for each field
+## Searching
+- When earching, a minimum of two(2) letters for first name and one(1) letter for last name is required
+  - If no resuts, the user will be prompted that no results are returned and can search again
+  - If multiple results, see [Multiple Results](#multiple-results) section below
+  - If a single result s returned, see [Single Results](#single-results) section below
+- `POST` requests should only occur when form fields contain data
+- WARNING: No SQL injection detection is implemented on this step
 
-### Single results TODO:
-- What happens when a single result is returned
+### Single results
+- A single result will return a new page with a url ending in `/ba-analysis/<PlayerID>` where <playerID> is the searched players playerID as listed in the database
+- The players name will be presented at the top of the page, alogn with a `Save player` button
+  - Clicking the save player button will save this searched playerID to the currently logged in user for future searching
+  - A success or failure message will occur after clicking the button
+    - If the player has not been saved for this user, a success message will be returned and the playerid will be saved to the databse
+    - If the player has been saved for this user, an error will occur, and no data will be saved to the database
+- Below the player name, a table with rows matching baseballreference.com are shown
+  - Reference image used for this can be seen in `/reference/MikeTroutPage_BBRef_web.png`
+- If a user would like to search for another player, the user must navigate back to the search page
 
-### Multiple results TODO:
-- What happens when multiple results are returned
+### Multiple results
+- When a search has multiple matching player names, a table is returned showing all of the results
+- The user can select from a dop down on which player they would like to continue searching on
+- When selecting from the drop down, only players shown on the page are included, and once `submit` is clicked, the single result page is returned to the user
 
-## Saving a searched player TODO:
-- How to save a searched player
-- *NOTE* Requires the user to be fully logged in
+## Searching a saved player
+- If a logged in user has any saved searches, they will be able to select from them to complete a search without having to re-enter the player name
+- The display will include a table of the playerID and player name that is saved to the user
+- A drop down selection will allow the user to select which player they would like to see
+- Once submit is clicked, the single result page for the selected player is returned
 
-## logging out TODO:
-- Logging out
-
-## Registering a new user TODO:
-- Steps for registering
-
----
-
-## Tasks
-
-### SQL Tasks
-
-- [x] TODO: Create analysis table
-  - [x] Main Table creation
-    - does not includie updating all custom calculations yet
-  - [x] Park-adjusted runs created
-    - Calculation is done by pulling info from the Teams Table, BPF
-      1. Create RC table
-      2. Use home field as BPF value for a player
-      3. Adjustment percent = BPF + 100 / 200
-      4. PARC = RC/Adjustment percent
-  - [x] Park-adjusted runs created per 27 outs
-    - same calculation as above, just using RC27 instead of RC
-  - [ ] Any other benefical items to add?
-- [x] TODO: Create a summary table?
-  - This could be a way to link player full names a little better?
-  - Or an easier link from someone inserting a name to get to a playerid
-  - [TK] Summary table seemes not needed.  Can use different query and joins to get needed values no problem
-- [x] TODO: Create trigger to update tables as needed?
-  - Triggers not really needed, so can close this out
-
-### Python/Website tasks
-
-- [x] TODO: Setup user auth as module for flask env
-  - User Log in works
-  - Can register
-  - does not allow duplicate username or emails
-  - Passwords stored as hash (no Plain text password storage)
-- [ ] TODO: ORM for neede info to be dev
-  - [x] ORM for Analysis created
-  - [x] ORM for People table for name look ups
-  - [x] ORM for webusers
-  - [ ] ORM for saved searches
-- [x] TODO: Search field for searching by first and last name
-  - First and last name are currently seperated
-  - If one result, returns that result directly
-  - If multiple results, returns the list, and then a drop down for user to select what player they wanted
-    - [x] TODO: Feature not fully working, errors when submitting selection
-      - Possible causes:
-        - hitting submit submits the form with no values
-        - this hits the check that the search fields have values to avoid returning entire DB when searching
-        - [x] TODO: Implment this feature fully
-        - Search now works from both multiple results page and if a single result is found
-- [ ] TODO: Way to save a users preferences/favorite players
-- [x] TODO: Format output of table
-  - Its formatted as a simple table, not pretty
-  - Need to see if any other columns need to be added
-    - Columns currently match the reference image
-
-### Misc Tasks
-
-- [ ] TODO: Add TOC here for readme
-- [ ] TODO: Make sure to update [Worklog](#worklog) with each PR or commit
-  - Format for update should be:
-    - Date in italics
-    - Initials of commenter in square brackets
-    - Bullets with each main change
-- [ ] TODO: Add link for MariaDB install
-- [ ] TODO: Add instructions for setting up base DB instance
-- [ ] TODO: User info setup required as well
-- [ ] TODO: decomp requirements for assigning tasks 
-  - Tim and Kevin todo
-  - (complete by 11-5-22)
-- [ ] TODO: gather reference material and images
-- [ ] TODO: Mark todo lines with assignee names if possible to avoid double work
-- [ ] TODO: Work on installation instructions for setting up DB
-  - Tim to do (no date set)
+## logging out
+- When a user is done browsing, clicking the `Logout` button in the navigation bar will log the user out
+- Once logged out, the navbar will revert to the default state
+- A user cna either log back in, register a new account, or navigate away from the application at this point
 
 ---
 
-# Installation information
-
-- [ ] TODO: Any dep installs needed to be detailed here
-
----
-
-# Environment information
+# Dev Environment information
 
 MariaDB
 - 10.6.8
@@ -145,7 +101,7 @@ LahmanBaseballDB
 
 Python 
 - 3.8.10 (Running on WSL2 - Ubuntu)
--
+
 Flask
 - 2.2.2
 
@@ -156,7 +112,7 @@ Flask
 In the terminal, run the following commands to install dependicies...
 
 _bash terminal_
-```
+```shell
 sudo apt install python3.8-venv
 python3 -m venv venv
 . venv/bin/activate
@@ -167,6 +123,17 @@ pip install flask-wtf==1.0.1
 pip install sqlalchemy==1.4.43
 pip install flask-sqlalchemy==3.0.2
 pip install flask-session==0.4.0
+```
+
+Ensrue the `/basebal-web-app/.flaskenv` file is configured to connect to your local database, example config below
+```shell
+FLASK_APP=baseball-web-app.py
+SECRET_KEY=1234567890abcdefg1234abcde #required for session usage in flask
+DB_USER=webwsl #created web user
+DB_PW=dbrules #web suers password
+DB_HOST=172.23.160.1 #host name for MariaDB server
+DB_PORT=3306 #default port
+DB_NAME=webapp_baseball #db name configured
 ```
 
 If running vscode as editor, add the following environment settings...
