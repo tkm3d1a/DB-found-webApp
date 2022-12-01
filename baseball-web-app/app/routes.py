@@ -210,6 +210,8 @@ def batting_analysis(playerid):
       db.session.add(newFavouritePlayer)
       db.session.commit()
       msg = 'Player marked as favourite'
+    else:
+      msg = "Already a favourite player"
 
   return render_template('resultsPlayerID.html', 
                          title='Results', 
