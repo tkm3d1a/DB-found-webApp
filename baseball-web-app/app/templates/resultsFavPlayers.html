@@ -1,8 +1,26 @@
-{% extends "search.html" %}
+{% extends "base.html" %}
 
-{% block noResultsContent %}
+{% block content %}
 <center>
-  <h1>All players found</h1>
-  <h2>Search again</h2>
+  <h1>Favourite Players</h1>
+  <div align="center" style="color:red">{{ msg }}</div>
+  <form action="" method="post" novalidate>
+    {{ selectPlayer.csrf_token }}
+    {{ selectPlayer.player_id }}
+    {{ selectPlayer.submit() }}
+  </form>
+  <table border="1">
+    <tr>
+      <th>Player ID</th>
+      <th>Player Name</th>
+    </tr>
+
+    {% for line in favouritePlayers%}
+    <tr>
+      <!--Variable names here must match exact to ORM-->
+      <td>{{ line.playerID }}</td>
+      <td>{{ line.playerName }}</td>
+    </tr>
+    {% endfor %}
 </center>
 {% endblock %}

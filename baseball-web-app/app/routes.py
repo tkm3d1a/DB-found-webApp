@@ -62,7 +62,23 @@ def search():
 
 @app.route('/favplayers', methods=['GET','POST'])
 def favPlayers():
-    return render_template('resultsFavPlayers.html')
+  msg=''
+  select_form = SelectForm()
+  favouritePlayers = Saved_Searches.query.filter_by(webuserID=session.get('username')).all()
+
+  if (len(favouritePlayers) == 0):
+    msg="You donot have any favourite players!"
+
+  if request.method == 'POST':
+      return redirect(url_for('batting_analysis', playerid=select_form.player_id.data))
+
+  select_form.player_id.choices = [(g.playerID, " ".join([g.playerName])) for g in favouritePlayers]
+
+  return render_template('resultsFavPlayers.html',
+                         title='Favourite Players',
+                         msg=msg,
+                         selectPlayer=select_form,
+                         favouritePlayers=favouritePlayers)
 
 @app.route('/search/multi_res', methods=['GET','POST'])
 def multi_results():
