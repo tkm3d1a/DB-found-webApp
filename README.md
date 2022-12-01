@@ -12,12 +12,48 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
 
 # Using the app/site
 
-## Sign in
-## Searching
-### Single results
-### Multiple results
-## Saving a searched player
-## logging out
+## Setting up Database
+- First, ensure MariaDB 10.6.8 is installed and operational on your local machine
+  - No previous database setup is required besides initial setup
+  - No testing on other versions were conducted, but newer version should work, and most versions of modern MariaDB should work
+- 2 user profiles will be required from here
+  - A root user to run all initial scripts
+  - A limited access web user for interacting with the DB from the web application
+    - This can be done using the script `updateDatabaseUsers.sql`
+      - Ensure the proper IP is set for the user that is accessing the database
+      - This can normally be local host if MariaDB is running on the same machine as the webApp.
+      - If the webapp is being run on WSL while MariaDB is on native windows, this will require extra configuration steps
+- All relevant scripts have been combined into a single file
+- Once TODO:
+
+## Homepage TODO:
+- Whats on homepage
+
+## Sign in TODO:
+- Sign in information:
+  - Username: `test_login`
+  - Password: `nohash`
+
+## Searching TODO:
+- Describe searching functions
+  - needs to split  first/last
+  - minimum characters for each field
+
+### Single results TODO:
+- What happens when a single result is returned
+
+### Multiple results TODO:
+- What happens when multiple results are returned
+
+## Saving a searched player TODO:
+- How to save a searched player
+- *NOTE* Requires the user to be fully logged in
+
+## logging out TODO:
+- Logging out
+
+## Registering a new user TODO:
+- Steps for registering
 
 ---
 
@@ -102,7 +138,7 @@ This is a class project for ~~blanked out~~.  It is built using the Flask/SQLAlc
 # Environment information
 
 MariaDB
-- 10.x.x
+- 10.6.8
 
 LahmanBaseballDB
 - 2019, MySQL
