@@ -2,7 +2,8 @@
 
 {% block content %}
 <center>
-  <h1>Multiple Players Found</h1>
+  <h1>Favourite Players</h1>
+  <div align="center" style="color:red">{{ msg }}</div>
   <form action="" method="post" novalidate>
     {{ selectPlayer.csrf_token }}
     {{ selectPlayer.player_id }}
@@ -11,16 +12,14 @@
   <table border="1">
     <tr>
       <th>Player ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Player Name</th>
     </tr>
 
-    {% for line in nameResults%}
+    {% for line in favouritePlayers%}
     <tr>
       <!--Variable names here must match exact to ORM-->
       <td>{{ line.playerID }}</td>
-      <td>{{ line.nameFirst }}</td> 
-      <td>{{ line.nameLast }}</td>
+      <td>{{ line.playerName }}</td>
     </tr>
     {% endfor %}
 </center>

@@ -3,7 +3,7 @@ import hashlib
 from flask import render_template, request, flash, redirect, url_for, session
 from app import app, db
 from app.forms import LoginForm, SearchForm, SaveForm, SelectForm
-from app.orm import Analysis, People, Web_Users
+from app.orm import Analysis, People, Web_Users, Saved_Searches
 
 # Root user information from os environment
 db_user = os.environ.get('DB_USER')
@@ -27,7 +27,6 @@ def search():
   msg=''
   
   if request.method == 'POST':
-    
     # Only populate nameResults if data is in the fields
     # This can likely be moved to the WTForms with validations
     if (len(search_form.first_name.data) > 1 and len(search_form.last_name.data) >= 1):
@@ -61,9 +60,25 @@ def search():
                          title='Search', 
                          form=search_form)
 
-@app.route('/allplayers', methods=['GET','POST'])
-def allPlayers():
-    return render_template('resultsAllPlayers.html')
+@app.route('/favplayers', methods=['GET','POST'])
+def favPlayers():
+  msg=''
+  select_form = SelectForm()
+  favouritePlayers = Saved_Searches.query.filter_by(webuserID=session.get('username')).all()
+
+  if (len(favouritePlayers) == 0):
+    msg="You donot have any favourite players!"
+
+  if request.method == 'POST':
+      return redirect(url_for('batting_analysis', playerid=select_form.player_id.data))
+
+  select_form.player_id.choices = [(g.playerID, " ".join([g.playerName])) for g in favouritePlayers]
+
+  return render_template('resultsFavPlayers.html',
+                         title='Favourite Players',
+                         msg=msg,
+                         selectPlayer=select_form,
+                         favouritePlayers=favouritePlayers)
 
 @app.route('/search/multi_res', methods=['GET','POST'])
 def multi_results():
@@ -175,8 +190,6 @@ def register():
     testRes = Web_Users.query.all()
     for row in testRes:
       print(row)
-    
-    
 
   return render_template('register.html', title="Register", msg = msg)
 
@@ -190,14 +203,34 @@ def logout():
 
 @app.route('/ba-analysis/<playerid>', methods=['GET','POST'])
 def batting_analysis(playerid):
+  msg=''
   search_form = SearchForm()
   results = Analysis.query.filter_by(playerid=playerid).all()
   for row in results:
         row.updateAge()
         if row.RC27 is None:
           row.setRC27()
-        print(row)
+        # print(row)
+  if request.method == 'POST':
+    player_ID = results[0].playerid
+    player_Name = results[0].playerName
+    userID = session.get('username')
+
+    favoritePlayer = Saved_Searches.query.filter_by(playerID=player_ID, webuserID=userID).first()
+
+    if favoritePlayer is None:
+      newFavouritePlayer = Saved_Searches(
+      webuserID=userID,
+      playerName=player_Name,
+      playerID=player_ID)
+      db.session.add(newFavouritePlayer)
+      db.session.commit()
+      msg = 'Player marked as favourite'
+    else:
+      msg = "Already a favourite player"
+
   return render_template('resultsPlayerID.html', 
                          title='Results', 
                          form=search_form, 
-                         results=results)
+                         results=results,
+                         msg=msg)

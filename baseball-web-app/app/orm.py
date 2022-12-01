@@ -5,6 +5,7 @@ class Analysis(db.Model):
 
 	analysis_ID = db.Column(db.Integer,primary_key=True) # required
 	playerid = db.Column(db.String(9))
+	playerName = db.Column(db.String(50))
 	yearID = db.Column(db.Integer)
 	birthYear = db.Column(db.Integer)
 	birthMonth = db.Column(db.Integer)
@@ -107,9 +108,12 @@ class Saved_Searches(db.Model):
 	__tablename__ = "savedSearches" #Required
 
 	search_ID = db.Column(db.Integer, primary_key=True) #Required
+	webuserID = db.Column(db.String(255))
+	playerName = db.Column(db.String(255))
+	playerID = db.Column(db.String(9))
 
 	def __repr__(self):
-		return "<savedSearches(searchID='%s')>" % (self.search_ID)
+		return "<savedSearches(searchID='%s', webuserID='%s', playerName='%s', playerID='%s')>" % (self.search_ID, self.webuserID, self.playerName, self.playerID)
 
 class People(db.Model):
   __tablename__ = "people"

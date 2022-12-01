@@ -1,6 +1,12 @@
-{% extends "search.html" %}
+{% extends "base.html" %}
 
 {% block resultsContent %}
+<h2 align="center">{{ results[0].playerName }}</h2>
+<form action="" method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <p align="center">{{ form.submitF() }}</p>
+  <div align="center" style="color:red">{{ msg }}</div>
+</form>
 <center>
   <table border="1">
     <tr>
@@ -23,16 +29,16 @@
       <th>SO</th>
       <th>OBP</th>
       <th>SLG</th>
-      <th>OPS</th><!--FIXME:Missing in ORM-->
-      <th>OPS+</th><!--FIXME:Missing in ORM-->
+<!--      <th>OPS</th>&lt;!&ndash;FIXME:Missing in ORM&ndash;&gt;-->
+<!--      <th>OPS+</th>&lt;!&ndash;FIXME:Missing in ORM&ndash;&gt;-->
       <th>TB</th>
       <th>GDP</th>
       <th>HBP</th>
       <th>SH</th>
       <th>SF</th>
       <th>IBB</th>
-      <th>POS</th><!--FIXME:Missing in ORM-->
-      <th>Awards</th><!--FIXME:Missing in ORM-->
+<!--      <th>POS</th>&lt;!&ndash;FIXME:Missing in ORM&ndash;&gt;-->
+<!--      <th>Awards</th>&lt;!&ndash;FIXME:Missing in ORM&ndash;&gt;-->
     </tr>
 
     {% for line in results%}
@@ -57,16 +63,16 @@
       <td>{{ line.SO }}</td>
       <td>{{ line.OBP }}</td>
       <td>{{ line.SLG }}</td>
-      <td>OPS</td>
-      <td>OPS+</td>
+<!--      <td>OPS</td>-->
+<!--      <td>OPS+</td>-->
       <td>{{ line.TB }}</td>
       <td>{{ line.GIDP }}</td>
       <td>{{ line.HBP }}</td>
       <td>{{ line.SH }}</td>
       <td>{{ line.SF }}</td>
       <td>{{ line.IBB }}</td>
-      <td>POSITIONS</td>
-      <td>AWARDS</td>
+<!--      <td>POSITIONS</td>-->
+<!--      <td>AWARDS</td>-->
     </tr>
     {% endfor %}
 

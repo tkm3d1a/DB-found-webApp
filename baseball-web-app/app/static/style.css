@@ -180,4 +180,22 @@
                         border-radius: 0px;
                     }
             }
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 90%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 5px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
 /* https://www.geeksforgeeks.org/login-and-registration-project-using-flask-and-mysql/

@@ -32,6 +32,17 @@
         </div>
         <div class="blockContent">
             {% block content %}{% endblock %}
+            {% if results %}
+            {% block resultsContent %}{% endblock %}
+            {% endif %}
+
+            {% if nameResults %}
+            {% block nameResultsContent %}{% endblock %}
+            {% endif %}
+
+            {% if noResults %}
+            {% block noResultsContent %}{% endblock %}
+            {% endif %}
         </div>
     </body>
 </html>
