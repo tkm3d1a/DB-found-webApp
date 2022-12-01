@@ -14,6 +14,7 @@ class SearchForm(FlaskForm):
     last_name = StringField('Last Name', validators=[DataRequired()])
     # save_search = BooleanField('Save Search')
     submit = SubmitField('Search')
+    submitF = SubmitField('Add to Favourites')
 
 class SaveForm(FlaskForm):
     # player_id = StringField('Player ID')
