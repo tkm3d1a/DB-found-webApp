@@ -6,6 +6,8 @@ _1-01-22 [TK]_
   - Very rough, needs more flesh
 - Established first 4 user story ideas
   - Added as cards in trello
+- Added react app start up files
+  - verifie working with npm start in baseball-frontend folder
 
 _12-30-22 [TK]_
 - Split readme up
