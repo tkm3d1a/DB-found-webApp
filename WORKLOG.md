@@ -1,5 +1,12 @@
 # Worklog
 
+_1-01-22 [TK]_
+- Added ETERNAL.md for tracking of external links to tools
+- Started work on base layout in the figma file
+  - Very rough, needs more flesh
+- Established first 4 user story ideas
+  - Added as cards in trello
+
 _12-30-22 [TK]_
 - Split readme up
     - Using a "worklog" and "todo" markdown file for tracking and notes
